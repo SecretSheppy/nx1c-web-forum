@@ -2,7 +2,7 @@
 
 session_start();
 
-include 'protected/gateKeeper.inc.php';
+include 'protected/captcha.gateKeeper.inc.php';
 
 // format for adding user data
 if ($_SESSION["User"] != "undefined") {
