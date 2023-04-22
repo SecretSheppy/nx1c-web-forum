@@ -15,7 +15,7 @@ if (isset($_POST["Username"])) {
     $row = $result->fetch_assoc();
 
     if ($row["password"] == $password) {
-        $_SESSION["user"] = array("name"=>$username, "uiMode"=>$row["uiMode"]);
+        $_SESSION["user"] = array("id"=>$row["id"], "name"=>$username, "uiMode"=>$row["uiMode"]);
         $db->close();
         header("Location: nx1c.php");
         exit();
