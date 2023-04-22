@@ -366,6 +366,24 @@ a.tag::before {
     text-decoration: underline;
 }
 
+.reply > .reply-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 10px;
+    padding-top: 5px;
+}
+
+.reply > .reply-info a {
+    background-color: transparent;
+    padding: 0;
+    color: var(--input-color);
+}
+
+.reply > .reply-info a:hover {
+    color: var(--theme-bgcolor);
+}
+
 .main-wrapper > .post-wrapper > .replies {
     margin-left: 20px;
     width: calc(100% - 20px);

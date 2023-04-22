@@ -73,15 +73,21 @@ if ($_SESSION["User"] != "undefined") {
                 see link: <a href="#">https://www.google.com/</a>
             </p>
         </div>
-        <h2>Replies</h2>
+        <h2>Comments</h2>
         <div class="replies">
             <div class="reply">
-                <p id="admin">Username</p>
+                <div class="reply-info">
+                    <a href="nx1c.php?filter_by=user&user_id=0" id="admin">Username</a>
+                    <a href="reply.php?post_id=0&comment_id=0">reply</a>
+                </div>
                 <div class="reply-text">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Convallis posuere morbi leo urna molestie at elementum eu. Interdum varius sit amet mattis vulputate enim nulla. Purus gravida quis blandit turpis cursus. Vestibulum lorem sed risus ultricies tristique nulla aliquet. Aliquet enim tortor at auctor urna nunc id cursus. Egestas maecenas pharetra convallis posuere morbi leo. Aliquam purus sit amet luctus venenatis. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant morbi. Congue mauris rhoncus aenean vel elit. Fringilla ut morbi tincidunt augue interdum velit euismod in pellentesque. Neque volutpat ac tincidunt vitae semper quis lectus. Ipsum suspendisse ultrices gravida dictum fusce ut placerat orci nulla. Vestibulum morbi blandit cursus risus at ultrices mi tempus. Scelerisque eleifend donec pretium vulputate sapien. Mollis nunc sed id semper risus in. Auctor neque vitae tempus quam pellentesque nec nam aliquam. Semper feugiat nibh sed pulvinar proin gravida.</p>
                 </div>
                 <div class="reply">
-                    <p id="mod">Username</p>
+                    <div class="reply-info">
+                        <a href="nx1c.php?filter_by=user&user_id=0" id="mod">Username</a>
+                        <a href="reply.php?post_id=0&comment_id=0">reply</a>
+                    </div>
                     <div class="reply-text">
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat in fermentum posuere urna nec tincidunt. Vulputate enim nulla aliquet porttitor lacus luctus accumsan tortor. Et malesuada fames ac turpis egestas. Ipsum dolor sit amet consectetur adipiscing elit ut. In arcu cursus euismod quis. Elit pellentesque habitant morbi tristique senectus et netus et malesuada. Nunc faucibus a pellentesque sit. Amet facilisis magna etiam tempor orci. In cursus turpis massa tincidunt dui ut ornare lectus. Suscipit adipiscing bibendum est ultricies integer quis. Auctor augue mauris augue neque gravida in fermentum et. Platea dictumst vestibulum rhoncus est pellentesque. Duis at consectetur lorem donec massa sapien faucibus. Ornare aenean euismod elementum nisi quis eleifend quam adipiscing. Pharetra vel turpis nunc eget lorem dolor sed. Purus sit amet luctus venenatis lectus magna fringilla urna.
@@ -91,12 +97,18 @@ if ($_SESSION["User"] != "undefined") {
                         </p>
                     </div>
                     <div class="reply">
-                        <p>Username</p>
+                        <div class="reply-info">
+                            <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
+                            <a href="reply.php?post_id=0&comment_id=0">reply</a>
+                        </div>
                         <div class="reply-text">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Facilisi nullam vehicula ipsum a arcu cursus vitae congue. Sed viverra ipsum nunc aliquet bibendum enim facilisis. Lectus magna fringilla urna porttitor rhoncus dolor purus non. Tellus mauris a diam maecenas sed enim ut sem. Porta non pulvinar neque laoreet suspendisse interdum consectetur. Facilisis sed odio morbi quis. Id ornare arcu odio ut sem nulla. Morbi enim nunc faucibus a pellentesque sit amet porttitor eget. Tristique sollicitudin nibh sit amet commodo nulla facilisi nullam vehicula. Bibendum est ultricies integer quis auctor elit sed vulputate mi. Accumsan lacus vel facilisis volutpat est velit egestas dui. Eleifend donec pretium vulputate sapien nec sagittis aliquam malesuada. Tincidunt id aliquet risus feugiat in. Pharetra sit amet aliquam id diam maecenas. Amet volutpat consequat mauris nunc congue nisi.</p>
                         </div>
                         <div class="reply">
-                            <p>Username</p>
+                            <div class="reply-info">
+                                <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
+                                <a href="reply.php?post_id=0&comment_id=0">reply</a>
+                            </div>
                             <div class="reply-text">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet cursus sit amet dictum sit amet justo. Sit amet justo donec enim. Tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Vel fringilla est ullamcorper eget nulla facilisi. Nulla pharetra diam sit amet nisl suscipit adipiscing. Leo urna molestie at elementum eu facilisis sed odio morbi. At tellus at urna condimentum mattis pellentesque. Pulvinar elementum integer enim neque volutpat. Sit amet purus gravida quis blandit turpis cursus. Eu feugiat pretium nibh ipsum consequat nisl vel. Tortor dignissim convallis aenean et tortor at risus. Sed vulputate odio ut enim blandit volutpat maecenas volutpat blandit. Pellentesque elit ullamcorper dignissim cras tincidunt. Adipiscing commodo elit at imperdiet dui accumsan. Phasellus egestas tellus rutrum tellus pellentesque eu tincidunt.</p>
                             </div>
@@ -104,62 +116,89 @@ if ($_SESSION["User"] != "undefined") {
                     </div>
                 </div>
             </div><div class="reply">
-                <p>Username</p>
+                <div class="reply-info">
+                    <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
+                    <a href="reply.php?post_id=0&comment_id=0">reply</a>
+                </div>
                 <div class="reply-text">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id consectetur purus ut faucibus pulvinar elementum. Eros donec ac odio tempor orci dapibus ultrices. Massa ultricies mi quis hendrerit. <a href="#">https://www.google.com/</a> Tristique nulla aliquet enim tortor at auctor urna nunc id. Volutpat diam ut venenatis tellus in metus vulputate eu scelerisque. Suspendisse sed nisi lacus sed viverra tellus in. Id cursus metus aliquam eleifend. Quis lectus nulla at volutpat. Justo laoreet sit amet cursus sit amet dictum.</p>
                 </div>
                 <div class="reply">
-                    <p>Username</p>
+                    <div class="reply-info">
+                        <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
+                        <a href="reply.php?post_id=0&comment_id=0">reply</a>
+                    </div>
                     <div class="reply-text">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed risus pretium quam vulputate dignissim suspendisse in est ante. In mollis nunc sed id semper. Tellus molestie nunc non blandit massa enim nec dui. Cursus eget nunc scelerisque viverra mauris in aliquam. Proin nibh nisl condimentum id venenatis a condimentum. Euismod lacinia at quis risus sed. Vitae tortor condimentum lacinia quis vel eros donec ac. Sed odio morbi quis commodo odio aenean sed adipiscing diam. Nascetur ridiculus mus mauris vitae. Dictum varius duis at consectetur lorem donec. Mollis nunc sed id semper risus in hendrerit. Ut aliquam purus sit amet luctus venenatis lectus. Arcu felis bibendum ut tristique et egestas. Sed velit dignissim sodales ut eu sem integer vitae justo. Ipsum dolor sit amet consectetur. Porta non pulvinar neque laoreet. Mauris pharetra et ultrices neque ornare aenean euismod elementum nisi.</p>
                     </div>
                 </div>
             </div><div class="reply">
-                <p>Username</p>
+                <div class="reply-info">
+                    <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
+                    <a href="reply.php?post_id=0&comment_id=0">reply</a>
+                </div>
                 <div class="reply-text">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed risus pretium quam vulputate dignissim suspendisse in est ante. In mollis nunc sed id semper. Tellus molestie nunc non blandit massa enim nec dui. Cursus eget nunc scelerisque viverra mauris in aliquam. Proin nibh nisl condimentum id venenatis a condimentum. Euismod lacinia at quis risus sed. Vitae tortor condimentum lacinia quis vel eros donec ac. Sed odio morbi quis commodo odio aenean sed adipiscing diam. Nascetur ridiculus mus mauris vitae. Dictum varius duis at consectetur lorem donec. Mollis nunc sed id semper risus in hendrerit. Ut aliquam purus sit amet luctus venenatis lectus. Arcu felis bibendum ut tristique et egestas. Sed velit dignissim sodales ut eu sem integer vitae justo. Ipsum dolor sit amet consectetur. Porta non pulvinar neque laoreet. Mauris pharetra et ultrices neque ornare aenean euismod elementum nisi.</p>
                 </div>
                 <div class="reply">
-                    <p>Username</p>
+                    <div class="reply-info">
+                        <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
+                        <a href="reply.php?post_id=0&comment_id=0">reply</a>
+                    </div>
                     <div class="reply-text">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam sit amet nisl suscipit adipiscing bibendum est ultricies integer. Pharetra pharetra massa massa ultricies mi. Sagittis eu volutpat odio facilisis mauris. Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec sagittis. In fermentum posuere urna nec. Id volutpat lacus laoreet non curabitur gravida arcu. Est velit egestas dui id. Est lorem ipsum dolor sit amet. Faucibus pulvinar elementum integer enim. Eget arcu dictum varius duis at consectetur lorem donec. Vitae tempus quam pellentesque nec. Est ultricies integer quis auctor elit sed vulputate. Cum sociis natoque penatibus et magnis dis parturient montes nascetur. Pharetra diam sit amet nisl suscipit adipiscing. Risus in hendrerit gravida rutrum quisque non tellus. Amet cursus sit amet dictum sit amet justo donec.</p>
                     </div>
                     <div class="reply">
-                        <p>Username</p>
+                        <div class="reply-info">
+                            <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
+                            <a href="reply.php?post_id=0&comment_id=0">reply</a>
+                        </div>
                         <div class="reply-text">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Elit eget gravida cum sociis natoque penatibus. Cras semper auctor neque vitae tempus quam pellentesque nec. Velit euismod in pellentesque massa placerat duis ultricies. Sit amet tellus cras adipiscing enim. Proin libero nunc consequat interdum. Malesuada fames ac turpis egestas maecenas. Sed lectus vestibulum mattis ullamcorper velit sed ullamcorper. Et netus et malesuada fames. Sapien eget mi proin sed.</p>
                         </div>
                     </div>
                 </div>
             </div><div class="reply">
-                <p>Username</p>
+                <div class="reply-info">
+                    <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
+                    <a href="reply.php?post_id=0&comment_id=0">reply</a>
+                </div>
                 <div class="reply-text">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Adipiscing commodo elit at imperdiet dui accumsan sit amet. Vel elit scelerisque mauris pellentesque pulvinar. Eget egestas purus viverra accumsan in nisl nisi. Sit amet mattis vulputate enim nulla aliquet porttitor. Dignissim enim sit amet venenatis urna cursus eget nunc. Imperdiet dui accumsan sit amet. Bibendum at varius vel pharetra vel. Justo nec ultrices dui sapien eget. Ultrices neque ornare aenean euismod elementum nisi quis eleifend quam. Purus sit amet luctus venenatis lectus magna. Pulvinar etiam non quam lacus. Congue eu consequat ac felis. Sed viverra tellus in hac.</p>
                 </div>
                 <div class="reply">
-                    <p>Username</p>
+                    <div class="reply-info">
+                        <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
+                        <a href="reply.php?post_id=0&comment_id=0">reply</a>
+                    </div>
                     <div class="reply-text">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In hac habitasse platea dictumst vestibulum. Neque volutpat ac tincidunt vitae semper quis. Sit amet risus nullam eget felis eget nunc. Scelerisque viverra mauris in aliquam. Rhoncus urna neque viverra justo. Ornare massa eget egestas purus viverra accumsan in. Tempus imperdiet nulla malesuada pellentesque elit. Sed arcu non odio euismod. In nulla posuere sollicitudin aliquam ultrices sagittis orci a scelerisque. Leo integer malesuada nunc vel risus. Neque volutpat ac tincidunt vitae semper quis lectus nulla at. Viverra accumsan in nisl nisi. Donec enim diam vulputate ut pharetra sit amet aliquam.</p>
                     </div>
                     <div class="reply">
-                        <p>Username</p>
+                        <div class="reply-info">
+                            <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
+                            <a href="reply.php?post_id=0&comment_id=0">reply</a>
+                        </div>
                         <div class="reply-text">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Elit eget gravida cum sociis natoque penatibus. Cras semper auctor neque vitae tempus quam pellentesque nec. Velit euismod in pellentesque massa placerat duis ultricies. Sit amet tellus cras adipiscing enim. Proin libero nunc consequat interdum. Malesuada fames ac turpis egestas maecenas. Sed lectus vestibulum mattis ullamcorper velit sed ullamcorper. Et netus et malesuada fames. Sapien eget mi proin sed.</p>
                         </div>
                     </div>
                 </div>
                 <div class="reply">
-                    <p>Username</p>
+                    <div class="reply-info">
+                        <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
+                        <a href="reply.php?post_id=0&comment_id=0">reply</a>
+                    </div>
                     <div class="reply-text">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In hac habitasse platea dictumst vestibulum. Neque volutpat ac tincidunt vitae semper quis. Sit amet risus nullam eget felis eget nunc. Scelerisque viverra mauris in aliquam. Rhoncus urna neque viverra justo. Ornare massa eget egestas purus viverra accumsan in. Tempus imperdiet nulla malesuada pellentesque elit. Sed arcu non odio euismod. In nulla posuere sollicitudin aliquam ultrices sagittis orci a scelerisque. Leo integer malesuada nunc vel risus. Neque volutpat ac tincidunt vitae semper quis lectus nulla at. Viverra accumsan in nisl nisi. Donec enim diam vulputate ut pharetra sit amet aliquam.</p>
                     </div>
                 </div>
             </div>
         </div>
-        <h2>Reply</h2>
+        <h2>Add a Comment</h2>
         <form action="reply.php" method="post" enctype="application/x-www-form-urlencoded">
-            <textarea name="reply-text" placeholder="Reply..." required></textarea>
-            <input value="Submit Reply" type="submit" class="reply-button" />
+            <textarea name="reply-text" placeholder="Comment..." required></textarea>
+            <input value="Comment" type="submit" class="reply-button" />
         </form>
     </div>
 </div>
