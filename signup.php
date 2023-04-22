@@ -3,6 +3,7 @@
 session_start();
 
 include 'protected/gateKeeper.inc.php';
+include 'protected/account.gateKeeper.inc.php';
 include 'protected/db.inc.php';
 require ('protected/token.inc.php');
 

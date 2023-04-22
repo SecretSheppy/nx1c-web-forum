@@ -3,6 +3,7 @@
 session_start();
 
 include 'protected/gateKeeper.inc.php';
+include 'protected/account.gateKeeper.inc.php';
 include 'protected/db.inc.php';
 
 if (isset($_POST["Username"])) {
