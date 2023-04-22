@@ -315,7 +315,7 @@ a.tag::before {
 }
 
 .main-wrapper > .login-wrapper > .button-wrapper > a {
-    width: 100px;
+    min-width: 100px;
     padding: 10px;
     text-align: center;
 }
