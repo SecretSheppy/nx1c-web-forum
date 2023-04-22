@@ -18,6 +18,9 @@ include 'protected/captcha.gateKeeper.inc.php';
             color: #fff;
         }
     </style>
+    <?php
+    include 'protected/uiMode.inc.php';
+    ?>
 </head>
 <body>
 <div class="nav">

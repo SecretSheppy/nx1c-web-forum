@@ -19,6 +19,9 @@ if ($_SESSION["User"] != "undefined") {
     <meta charset="UTF-8">
     <title>NX1C - Post</title>
     <link rel="stylesheet" href="resources/css/main.light.css">
+    <?php
+    include 'protected/uiMode.inc.php';
+    ?>
 </head>
 <body>
 <div class="nav">

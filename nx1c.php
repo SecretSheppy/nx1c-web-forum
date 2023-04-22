@@ -12,6 +12,9 @@ include 'protected/captcha.gateKeeper.inc.php';
     <meta charset="UTF-8">
     <title>NX1C - Home</title>
     <link rel="stylesheet" href="resources/css/main.light.css">
+    <?php
+    include 'protected/uiMode.inc.php';
+    ?>
 </head>
 <body>
 <div class="nav">
