@@ -38,7 +38,7 @@
 /*
 global styling
  */
-input, a {
+input, a, select {
     background-color: var(--subnav-input-bgcolor);
     outline: none;
     border-radius: 10px;
@@ -335,6 +335,12 @@ a.tag::before {
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 20px;
+}
+
+.main-wrapper > .login-wrapper > .block-form {
+    display: grid;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .main-wrapper > .post-wrapper {
