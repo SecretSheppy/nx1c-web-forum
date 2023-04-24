@@ -5,23 +5,11 @@ session_start();
 include 'protected/captcha.gateKeeper.inc.php';
 include 'protected/loggedIn.gateKeeper.inc.php';
 include 'protected/db.inc.php';
+include 'protected/login.inc.php';
 
 if (isset($_POST["Username"])) {
 
-    $username = $_POST["Username"];
-    $password = $_POST["Password"];
-
-    $result = $db->query("SELECT * FROM users WHERE name = '$username'");
-    $row = $result->fetch_assoc();
-
-    if ($row["password"] == $password) {
-        $_SESSION["user"] = array("id"=>$row["id"], "name"=>$username, "uiMode"=>$row["uiMode"], "theme"=>$row["theme"]);
-        $db->close();
-        header("Location: nx1c.php");
-        exit();
-    } else {
-        $error = true;
-    }
+    $error = login($db, $_POST["Username"], $_POST["Password"], true);
 
 }
 
