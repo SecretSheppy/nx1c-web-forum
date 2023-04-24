@@ -13,7 +13,7 @@ require ('protected/token.inc.php');
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NX1C - Login</title>
+    <title>NX1C - Sign Up</title>
     <link rel="stylesheet" href="resources/css/main.light.css">
 </head>
 <body>
