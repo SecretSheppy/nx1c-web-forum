@@ -3,6 +3,18 @@
 session_start();
 
 include 'protected/captcha.gateKeeper.inc.php';
+include 'protected/db.inc.php';
+
+// TODO https://stackoverflow.com/questions/7537377/how-to-include-a-php-variable-inside-a-mysql-statement
+// TODO using protected/sql/search.sql
+
+if (isset($_GET["search-value"])) {
+    $sql = "SELECT posts.postid, posts.title, posts.content, users.name, users.role FROM posts, users WHERE posts.userid = users.userid AND posts.content LIKE '%" . $_GET["search-value"] . "%' ORDER BY posts.postid DESC";
+} else {
+    $sql = "SELECT posts.postid, posts.title, posts.content, users.name, users.role FROM posts, users WHERE posts.userid = users.userid ORDER BY posts.postid DESC";
+}
+$result = $db->query($sql);
+$db->close();
 
 ?>
 
@@ -19,9 +31,8 @@ include 'protected/captcha.gateKeeper.inc.php';
 <body>
 <div class="nav">
     <h1>NX1C</h1>
-    <form class="search-wrapper" action="search.php" method="get" enctype="application/x-www-form-urlencoded">
+    <form class="search-wrapper" action="nx1c.php" method="get" enctype="application/x-www-form-urlencoded">
         <input name="search-value" placeholder="Search..." minlength="1" type="text"/>
-        <input type="hidden" value="text" name="type"/>
         <input type="submit" value="Search" />
     </form>
     <div class="button-wrapper">
@@ -46,137 +57,36 @@ include 'protected/captcha.gateKeeper.inc.php';
 <div class="navblocker"></div>
 <div class="main-wrapper">
     <div class="content">
-        <div class="item">
-            <div class="inner">
-                <h1>Article Title</h1>
-                <div class="tags">
-                    <a class="tag" href="search.php?search-value=tag1&type=tag">Tag1</a>
-                    <a class="tag" href="#">Tag2</a>
-                    <a class="tag" href="#">Tag3</a>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel pretium lectus quam. In fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Urna cursus eget nunc scelerisque viverra mauris. Consectetur a erat nam at lectus urna duis convallis convallis. Et magnis dis parturient montes nascetur ridiculus mus mauris vitae. Lacus vel facilisis volutpat est velit. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae congue. Imperdiet massa tincidunt nunc pulvinar sapien et ligula. In nisl nisi scelerisque eu ultrices vitae. Urna nec tincidunt praesent semper.</p>
-            </div>
-            <div class="center">
-                <a href="post.php?post_id=0">See Full Post</a>
-            </div>
-        </div><div class="item">
-            <div class="inner">
-                <h1>Article Title</h1>
-                <div class="tags">
-                    <a class="tag" href="#">Tag1</a>
-                    <a class="tag" href="#">Tag2</a>
-                    <a class="tag" href="#">Tag3</a>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel pretium lectus quam. In fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Urna cursus eget nunc scelerisque viverra mauris. Consectetur a erat nam at lectus urna duis convallis convallis. Et magnis dis parturient montes nascetur ridiculus mus mauris vitae. Lacus vel facilisis volutpat est velit. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae congue. Imperdiet massa tincidunt nunc pulvinar sapien et ligula. In nisl nisi scelerisque eu ultrices vitae. Urna nec tincidunt praesent semper.</p>
-            </div>
-            <div class="center">
-                <a href="#">See Full Post</a>
-            </div>
-        </div><div class="item">
-            <div class="inner">
-                <h1>Article Title</h1>
-                <div class="tags">
-                    <a class="tag" href="#">Tag1</a>
-                    <a class="tag" href="#">Tag2</a>
-                    <a class="tag" href="#">Tag3</a>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel pretium lectus quam. In fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Urna cursus eget nunc scelerisque viverra mauris. Consectetur a erat nam at lectus urna duis convallis convallis. Et magnis dis parturient montes nascetur ridiculus mus mauris vitae. Lacus vel facilisis volutpat est velit. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae congue. Imperdiet massa tincidunt nunc pulvinar sapien et ligula. In nisl nisi scelerisque eu ultrices vitae. Urna nec tincidunt praesent semper.</p>
-            </div>
-            <div class="center">
-                <a href="#">See Full Post</a>
-            </div>
-        </div><div class="item">
-            <div class="inner">
-                <h1>Article Title</h1>
-                <div class="tags">
-                    <a class="tag" href="#">Tag1</a>
-                    <a class="tag" href="#">Tag2</a>
-                    <a class="tag" href="#">Tag3</a>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel pretium lectus quam. In fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Urna cursus eget nunc scelerisque viverra mauris. Consectetur a erat nam at lectus urna duis convallis convallis. Et magnis dis parturient montes nascetur ridiculus mus mauris vitae. Lacus vel facilisis volutpat est velit. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae congue. Imperdiet massa tincidunt nunc pulvinar sapien et ligula. In nisl nisi scelerisque eu ultrices vitae. Urna nec tincidunt praesent semper.</p>
-            </div>
-            <div class="center">
-                <a href="#">See Full Post</a>
-            </div>
-        </div><div class="item">
-            <div class="inner">
-                <h1>Article Title</h1>
-                <div class="tags">
-                    <a class="tag" href="#">Tag1</a>
-                    <a class="tag" href="#">Tag2</a>
-                    <a class="tag" href="#">Tag3</a>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel pretium lectus quam. In fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Urna cursus eget nunc scelerisque viverra mauris. Consectetur a erat nam at lectus urna duis convallis convallis. Et magnis dis parturient montes nascetur ridiculus mus mauris vitae. Lacus vel facilisis volutpat est velit. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae congue. Imperdiet massa tincidunt nunc pulvinar sapien et ligula. In nisl nisi scelerisque eu ultrices vitae. Urna nec tincidunt praesent semper.</p>
-            </div>
-            <div class="center">
-                <a href="#">See Full Post</a>
-            </div>
-        </div><div class="item">
-            <div class="inner">
-                <h1>Article Title</h1>
-                <div class="tags">
-                    <a class="tag" href="#">Tag1</a>
-                    <a class="tag" href="#">Tag2</a>
-                    <a class="tag" href="#">Tag3</a>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel pretium lectus quam. In fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Urna cursus eget nunc scelerisque viverra mauris. Consectetur a erat nam at lectus urna duis convallis convallis. Et magnis dis parturient montes nascetur ridiculus mus mauris vitae. Lacus vel facilisis volutpat est velit. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae congue. Imperdiet massa tincidunt nunc pulvinar sapien et ligula. In nisl nisi scelerisque eu ultrices vitae. Urna nec tincidunt praesent semper.</p>
-            </div>
-            <div class="center">
-                <a href="#">See Full Post</a>
-            </div>
-        </div><div class="item">
-            <div class="inner">
-                <h1>Article Title</h1>
-                <div class="tags">
-                    <a class="tag" href="#">Tag1</a>
-                    <a class="tag" href="#">Tag2</a>
-                    <a class="tag" href="#">Tag3</a>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel pretium lectus quam. In fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Urna cursus eget nunc scelerisque viverra mauris. Consectetur a erat nam at lectus urna duis convallis convallis. Et magnis dis parturient montes nascetur ridiculus mus mauris vitae. Lacus vel facilisis volutpat est velit. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae congue. Imperdiet massa tincidunt nunc pulvinar sapien et ligula. In nisl nisi scelerisque eu ultrices vitae. Urna nec tincidunt praesent semper.</p>
-            </div>
-            <div class="center">
-                <a href="#">See Full Post</a>
-            </div>
-        </div><div class="item">
-            <div class="inner">
-                <h1>Article Title</h1>
-                <div class="tags">
-                    <a class="tag" href="#">Tag1</a>
-                    <a class="tag" href="#">Tag2</a>
-                    <a class="tag" href="#">Tag3</a>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel pretium lectus quam. In fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Urna cursus eget nunc scelerisque viverra mauris. Consectetur a erat nam at lectus urna duis convallis convallis. Et magnis dis parturient montes nascetur ridiculus mus mauris vitae. Lacus vel facilisis volutpat est velit. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae congue. Imperdiet massa tincidunt nunc pulvinar sapien et ligula. In nisl nisi scelerisque eu ultrices vitae. Urna nec tincidunt praesent semper.</p>
-            </div>
-            <div class="center">
-                <a href="#">See Full Post</a>
-            </div>
-        </div><div class="item">
-            <div class="inner">
-                <h1>Article Title</h1>
-                <div class="tags">
-                    <a class="tag" href="#">Tag1</a>
-                    <a class="tag" href="#">Tag2</a>
-                    <a class="tag" href="#">Tag3</a>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel pretium lectus quam. In fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Urna cursus eget nunc scelerisque viverra mauris. Consectetur a erat nam at lectus urna duis convallis convallis. Et magnis dis parturient montes nascetur ridiculus mus mauris vitae. Lacus vel facilisis volutpat est velit. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae congue. Imperdiet massa tincidunt nunc pulvinar sapien et ligula. In nisl nisi scelerisque eu ultrices vitae. Urna nec tincidunt praesent semper.</p>
-            </div>
-            <div class="center">
-                <a href="#">See Full Post</a>
-            </div>
-        </div><div class="item">
-            <div class="inner">
-                <h1>Article Title</h1>
-                <div class="tags">
-                    <a class="tag" href="#">Tag1</a>
-                    <a class="tag" href="#">Tag2</a>
-                    <a class="tag" href="#">Tag3</a>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel pretium lectus quam. In fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Urna cursus eget nunc scelerisque viverra mauris. Consectetur a erat nam at lectus urna duis convallis convallis. Et magnis dis parturient montes nascetur ridiculus mus mauris vitae. Lacus vel facilisis volutpat est velit. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae congue. Imperdiet massa tincidunt nunc pulvinar sapien et ligula. In nisl nisi scelerisque eu ultrices vitae. Urna nec tincidunt praesent semper.</p>
-            </div>
-            <div class="center">
-                <a href="#">See Full Post</a>
+        <div class="item" style="min-height: 0; height: fit-content;">
+            <div class="inner" style="padding: 30px 20px 30px 20px;">
+                <a href="write.php" class="theme">Write A Post</a>
+                <a href="write.php">See My Posts</a>
             </div>
         </div>
+        <?php
+
+        if ($result->num_rows > 0) {
+            for ($i = 0; $i < $result->num_rows; $i++) {
+                $row = $result->fetch_assoc();
+                echo '<div class="item">
+                        <div class="inner">
+                            <h1>' . $row["title"] . '</h1>
+                            <div class="tags">
+                                <a class="tag" href="search.php?search-value=tag1&type=tag">Tag1</a>
+                                <a class="tag" href="#">Tag2</a>
+                                <a class="tag" href="#">Tag3</a>
+                            </div>
+                            <p>' . $row["content"] . '</p>
+                        </div>
+                        <div class="center">
+                            <a href="post.php?post_id=' . $row["postid"] . '">See Full Post</a>
+                        </div>
+                    </div>';
+            }
+        } else {
+            echo "<p>No Posts Found</p>";
+        }
+        ?>
     </div>
     <div class="users">
         <div class="inner">
