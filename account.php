@@ -8,7 +8,7 @@ include 'protected/db.inc.php';
 include 'protected/login.inc.php';
 
 if (isset($_POST["uiMode"])) {
-    $sql = "UPDATE users SET uiMode = '" . $_POST["uiMode"] . "', theme = '" . $_POST["theme"] . "' WHERE id = '" . $_SESSION["user"]["id"] . "'";
+    $sql = "UPDATE users SET uiMode = '" . $_POST["uiMode"] . "', theme = '" . $_POST["theme"] . "' WHERE userid = '" . $_SESSION["user"]["id"] . "'";
     if ($db->query($sql) === false) {
         header("Location: err.php");
         exit();
