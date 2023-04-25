@@ -5,7 +5,7 @@ function login($db, $username, $password, $redirect) {
     $row = $result->fetch_assoc();
 
     if ($row["password"] == $password) {
-        $_SESSION["user"] = array("id"=>$row["id"], "name"=>$username, "password"=>$password, "uiMode"=>$row["uiMode"], "theme"=>$row["theme"]);
+        $_SESSION["user"] = array("id"=>$row["userid"], "name"=>$username, "password"=>$password, "uiMode"=>$row["uiMode"], "theme"=>$row["theme"]);
         if ($redirect) {
             $db->close();
             header("Location: nx1c.php");
