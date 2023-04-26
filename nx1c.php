@@ -3,6 +3,9 @@
 session_start();
 
 include 'protected/captcha.gateKeeper.inc.php';
+include 'protected/gate_keeper.inc.php';
+gate_keeper(0);
+
 include 'protected/db.inc.php';
 
 // TODO https://stackoverflow.com/questions/7537377/how-to-include-a-php-variable-inside-a-mysql-statement

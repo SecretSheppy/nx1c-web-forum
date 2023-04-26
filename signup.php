@@ -2,8 +2,9 @@
 
 session_start();
 
-include 'protected/captcha.gateKeeper.inc.php';
-include 'protected/loggedIn.gateKeeper.inc.php';
+include 'protected/gate_keeper.inc.php';
+gate_keeper(1, false);
+
 include 'protected/db.inc.php';
 require ('protected/token.inc.php');
 
