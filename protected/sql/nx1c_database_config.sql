@@ -1,5 +1,3 @@
--- Create nx1c database
-
 CREATE DATABASE nx1c;
 USE nx1c;
 
