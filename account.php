@@ -5,6 +5,7 @@ session_start();
 include 'protected/captcha.gateKeeper.inc.php';
 include 'protected/notLoggedIn.gateKeeper.inc.php';
 include 'protected/gate_keeper.inc.php';
+include 'tools/gate_keeper.inc.php';
 gate_keeper(1);
 
 include 'protected/db.inc.php';
