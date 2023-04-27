@@ -3,6 +3,7 @@
 /**
  * finds a users account based on their username, checks if the password they entered is the same as the password stored
  * and then either sets the session user array or does nothing
+ *
  * @param mysqli $db - database connection
  * @param string $username - users name
  * @param string $password - users password

@@ -2,6 +2,7 @@
 
 /**
  * generates a security token based on a set of characters and a given length
+ *
  * @param string $chars - characters to use in security token
  * @param int $length - length of security token
  * @return string - security token
