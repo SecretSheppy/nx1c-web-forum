@@ -2,11 +2,11 @@
 
 session_start();
 
-include 'tools/gate_keeper.inc.php';
+include 'tools/gate_keeper.php';
 gate_keeper(1, false);
 
 include 'protected/db.inc.php';
-require ('protected/token.inc.php');
+require('tools/generate_security_token.php');
 
 ?>
 
@@ -42,7 +42,7 @@ require ('protected/token.inc.php');
             if ($result->num_rows == 0) {
 
                 $password = $_POST["Password"];
-                $token = generateToken("abcdefghijklmnopqrstuvwxyz", 50);
+                $token = generate_security_token("abcdefghijklmnopqrstuvwxyz", 50);
 
                 $sql = "INSERT INTO users (name, password, securityToken) VALUES ('$username', '$password', '$token')";
 

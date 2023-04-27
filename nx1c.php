@@ -2,7 +2,7 @@
 
 session_start();
 
-include 'tools/gate_keeper.inc.php';
+include 'tools/gate_keeper.php';
 gate_keeper(0);
 
 include 'protected/db.inc.php';
@@ -27,7 +27,7 @@ $db->close();
     <title>NX1C - Home</title>
     <link rel="stylesheet" href="resources/css/main.light.css">
     <?php
-    include 'protected/uiMode.inc.php';
+    include 'tools/ui_mode.inc.php';
     ?>
 </head>
 <body>

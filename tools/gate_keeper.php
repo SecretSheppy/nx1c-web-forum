@@ -1,7 +1,7 @@
 <?php
 
 /**
- * gate_keeper.inc.php
+ * gate_keeper.php
  *
  * checks weather user is allowed to access page based on completion of certain events
  * (i.e. captcha completion or being logged in)

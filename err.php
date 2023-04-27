@@ -19,7 +19,7 @@ include 'protected/captcha.gateKeeper.inc.php';
         }
     </style>
     <?php
-    include 'protected/uiMode.inc.php';
+    include 'tools/ui_mode.inc.php';
     ?>
 </head>
 <body>

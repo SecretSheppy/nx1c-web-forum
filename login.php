@@ -2,11 +2,11 @@
 
 session_start();
 
-include 'tools/gate_keeper.inc.php';
+include 'tools/gate_keeper.php';
 gate_keeper(1, false);
 
 include 'protected/db.inc.php';
-include 'tools/user_login.inc.php';
+include 'tools/user_login.php';
 
 if (isset($_POST["Username"])) {
 

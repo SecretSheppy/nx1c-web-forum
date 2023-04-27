@@ -2,7 +2,7 @@
 
 session_start();
 
-require('protected/token.inc.php');
+require('protected/generate_security_token.php');
 
 /*
  * captcha page
@@ -16,7 +16,7 @@ if (($_POST["captcha-sequence"] && $_POST["captcha-sequence"] == $_SESSION["capt
 }
 
 $chars = "abcdefg";
-$_SESSION["captcha-token"] = generateToken($chars, strlen($chars));
+$_SESSION["captcha-token"] = generate_security_token($chars, strlen($chars));
 
 // return case
 function getCase($char) {

@@ -2,7 +2,7 @@
 
 session_start();
 
-include 'tools/gate_keeper.inc.php';
+include 'tools/gate_keeper.php';
 gate_keeper(0);
 
 // format for adding user data
@@ -21,7 +21,7 @@ if ($_SESSION["User"] != "undefined") {
     <title>NX1C - Post</title>
     <link rel="stylesheet" href="resources/css/main.light.css">
     <?php
-    include 'protected/uiMode.inc.php';
+    include 'tools/ui_mode.inc.php';
     ?>
 </head>
 <body>
