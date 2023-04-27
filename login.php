@@ -6,11 +6,11 @@ include 'tools/gate_keeper.inc.php';
 gate_keeper(1, false);
 
 include 'protected/db.inc.php';
-include 'protected/login.inc.php';
+include 'tools/user_login.inc.php';
 
 if (isset($_POST["Username"])) {
 
-    $error = login($db, $_POST["Username"], $_POST["Password"], true);
+    $error = user_login($db, $_POST["Username"], $_POST["Password"], true);
 
 }
 

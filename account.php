@@ -6,7 +6,7 @@ include 'tools/gate_keeper.inc.php';
 gate_keeper(1);
 
 include 'protected/db.inc.php';
-include 'protected/login.inc.php';
+include 'tools/user_login.inc.php';
 
 if (isset($_POST["uiMode"])) {
     $sql = "UPDATE users SET uiMode = '" . $_POST["uiMode"] . "', theme = '" . $_POST["theme"] . "' WHERE userid = '" . $_SESSION["user"]["id"] . "'";
@@ -17,7 +17,7 @@ if (isset($_POST["uiMode"])) {
 }
 
 // TODO - including password in user array could be dangerous but is needed here
-$error = login($db, $_SESSION["user"]["name"], $_SESSION["user"]["password"], false);
+$error = user_login($db, $_SESSION["user"]["name"], $_SESSION["user"]["password"], false);
 
 $db->close();
 ?>
