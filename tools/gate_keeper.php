@@ -9,7 +9,8 @@
  * @param bool $captcha
  * @return void
  */
-function gate_keeper($gate_keeper_mode, $allow_logged_in = true, $captcha = true) {
+function gate_keeper($gate_keeper_mode, $allow_logged_in = true, $captcha = true)
+{
 
     // check for captcha completion
     if ($captcha && !$_SESSION["captcha-completed"]) {

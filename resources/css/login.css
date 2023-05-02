@@ -154,3 +154,27 @@ login styling
         opacity: 0;
     }
 }
+
+.spacer {
+    margin-top: 20px;
+}
+
+.spacer > .link {
+    padding: 0;
+    color: var(--theme-bgcolor);
+    background-color: transparent;
+    border-radius: 0;
+    text-decoration: underline;
+}
+
+.token-wrapper {
+    background-color: #b7b7b7;
+    word-wrap: break-word;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.token-wrapper > p {
+    font-family: "Courier New", monospace;
+}

@@ -10,7 +10,8 @@
  * @param bool $redirect - redirect to home page
  * @return bool|void
  */
-function user_login($db, $username, $password, $redirect) {
+function user_login($db, $username, $password, $redirect)
+{
 
     $row = ($db->query("SELECT * FROM users WHERE name = '$username'"))->fetch_assoc();
 
@@ -18,7 +19,7 @@ function user_login($db, $username, $password, $redirect) {
 
         $_SESSION["user"] = array(
             "id" => $row["userid"],
-            "name" => $username,
+            "name" => $row["name"],
             "password" => $password,
             "uiMode" => $row["uiMode"],
             "theme" => $row["theme"]
@@ -31,7 +32,6 @@ function user_login($db, $username, $password, $redirect) {
         }
 
         return false;
-    } else {
-        return true;
     }
+    else { return true; }
 }

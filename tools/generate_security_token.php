@@ -7,7 +7,8 @@
  * @param int $length - length of security token
  * @return string - security token
  */
-function generate_security_token($chars, $length) {
+function generate_security_token($chars, $length)
+{
 
     $token = "";
 

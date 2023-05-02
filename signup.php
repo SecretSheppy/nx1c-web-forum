@@ -14,108 +14,93 @@ require('tools/generate_security_token.php');
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NX1C - Sign Up</title>
-    <link rel="stylesheet" href="resources/css/main.light.css">
+    <title>User Sign Up</title>
+    <link rel="stylesheet" href="resources/css/login.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
 <body>
-<div class="nav">
-    <h1>NX1C</h1>
-</div>
-<div class="subnav">
-    <div class="inner">
-        <p>Create a new NX1C Account</p>
-    </div>
-</div>
-<div class="navblocker"></div>
-<div class="main-wrapper">
-    <div class="login-wrapper">
-        <?php
+<?php
 
-        if (isset($_POST["Username"])) {
+if (isset($error)) {
+    echo '<div class="alert">
+            <p>An error occurred during the signup process, please try again later!</p>
+        </div>';
+}
 
-            $username = $_POST["Username"];
+?>
+<div class="login-wrapper">
+    <?php
 
-            $sql = "SELECT * FROM users WHERE name = '$username'";
-            $result = $db->query($sql);
+    if (isset($_POST["username"])) {
 
-            // only create account if account with that name doesn't exist
-            if ($result->num_rows == 0) {
+        $username = $_POST["username"];
 
-                $password = $_POST["Password"];
-                $token = generate_security_token("abcdefghijklmnopqrstuvwxyz", 50);
+        $sql = "SELECT * FROM users WHERE name = '$username'";
+        $result = $db->query($sql);
 
-                $sql = "INSERT INTO users (name, password, securityToken) VALUES ('$username', '$password', '$token')";
+        // only create account if account with that name doesn't exist
+        if ($result->num_rows == 0) {
 
-                if ($db->query($sql) === TRUE) {
-                    echo '<h1>One Last Thing</h1>
-                    <br>
-                    <h3>
-                        To ensure anonymity on the service NX1C does not use any personal information to identify users. To secure your account and
-                        allow you to delete or recover it you have now been issued a security token. We advise that you keep this safe and do not share it
-                        with anyone. If you lose your security token you will not be able to recover or delete your account.
-                    </h3>
-                    <br>
-                    <h2>Your Security Token</h2>
-                    <div class="token-wrapper">
-                        <p>' . $token . '</p>
-                    </div>
-                    <br>
-                    <a href="login.php" class="reply-button">I have saved my security token</a>';
-                } else {
-                    header("Location: err.php");
-                    exit();
-                }
+            $password = $_POST["password"];
+            // TODO check passwords match
+            $token = generate_security_token("abcdefghijklmnopqrstuvwxyz", 50);
 
+            $sql = "INSERT INTO users (name, password, securityToken) VALUES ('$username', '$password', '$token')";
+
+            if ($db->query($sql) === TRUE) {
+                echo '<div class="login">
+                        <h1>NX1C</h1>
+                        <p>One Last Thing</p>
+                        <br>
+                        <p>
+                            A random security token has been generated for your account. You will need this in order to reset your password or delete your account.
+                            Do not lose or share it with anyone!
+                        </p>
+                        <br>
+                        <p>Your Security Token</p>
+                        <div class="token-wrapper">
+                            <p>' . $token . '</p>
+                        </div>
+                        <br>
+                        <div class="spacer">
+                            <a href="login.php" class="link">I have saved my security token</a>
+                        </div>
+                    </div>';
             } else {
-
-                echo '<div class="button-wrapper">
-                <a href="login.php"><h2>LOGIN</h2></a>
-                <a href="signup.php" class="focus"><h2>SIGN UP</h2></a>
-                </div><form action="signup.php" method="POST" enctype="application/x-www-form-urlencoded">
-                <h3 style="color: red; margin-bottom: 10px;">Sorry, the name: ' . $username . ' is already taken. Please choose another one and try again.</h3>
-                <input placeholder="Username" name="Username" type="text" required/>
-                <input placeholder="Password" type="password" name="Password" required/>
-                <input type="submit" value="Login"/>
-                </form>';
-
+                header("Location: err.php");
+                exit();
             }
 
-            $db->close();
-        } else {
-            echo '<div class="button-wrapper">
-            <a href="login.php"><h2>LOGIN</h2></a>
-            <a href="signup.php" class="focus"><h2>SIGN UP</h2></a>
-            </div><form action="signup.php" method="POST" enctype="application/x-www-form-urlencoded">
-            <input placeholder="Username" name="Username" type="text" required/>
-            <input placeholder="Password" type="password" name="Password" required/>
-            <input type="submit" value="Login"/>
-            </form>';
         }
+    } else {
+        echo '<div class="login">
+                <h1>NX1C</h1>
+                <p>User Sign Up</p>
+                <form method="POST" enctype="application/x-www-form-urlencoded">
+                    <div class="label-wrapper">
+                        <label for="username">Username</label>
+                    </div>
+                    <input id="username" type="text" placeholder="Enter your username" name="username" autocomplete="off" required />
+                    <div class="label-wrapper">
+                        <label for="password">Password</label>
+                    </div>
+                    <input id="password" type="password" placeholder="Enter your password" name="password" autocomplete="off" required />
+                    <div class="label-wrapper">
+                        <label for="confirm-password">Confirm Password</label>
+                    </div>
+                    <input id="confirm-password" type="password" placeholder="Enter your password again" name="confirm-password" autocomplete="off" required />
+                    <div class="button-wrapper">
+                        <input type="reset" value="Cancel" class="spacing" />
+                        <input type="submit" value="Sign Up" />
+                    </div>
+                </form>
+                <div class="spacer">
+                    <a href="nx1c.php" class="link">Return to home page</a>
+                </div>
+            </div>';
+    }
 
-        ?>
-    </div>
-</div>
-<div class="footer">
-    <div class="element">
-        <h3>NX1C</h3>
-        <a href="#">User Agreement</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Content Policy</a>
-        <a href="#">About</a>
-    </div>
-    <div class="element">
-        <h3>Support</h3>
-        <a href="#">Delete Account</a>
-        <a href="#">General Enquiry</a>
-    </div>
-    <div class="element">
-        <h3>Other Links</h3>
-        <a href="http://5wvugn3zqfbianszhldcqz2u7ulj3xex6i3ha3c5znpgdcnqzn24nnid.onion/">The Hidden Wiki</a>
-        <a href="http://jaz45aabn5vkemy4jkg4mi4syheisqn2wn2n4fsuitpccdackjwxplad.onion/">OnionLinks</a>
-        <a href="http://lldan5gahapx5k7iafb3s4ikijc4ni7gx5iywdflkba5y2ezyg6sjgyd.onion/">OnionShare</a>
-        <a href="http://dreadytofatroptsdj6io7l3xptbet6onoyno2yv7jicoxknyazubrad.onion/">Dread</a>
-        <a href="https://daunt.link">Daunt</a>
-    </div>
+    ?>
 </div>
 </body>
 </html>

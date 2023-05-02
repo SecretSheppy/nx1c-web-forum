@@ -2,7 +2,7 @@
 
 session_start();
 
-require('protected/generate_security_token.php');
+require('tools/generate_security_token.php');
 
 /*
  * captcha page
@@ -27,8 +27,6 @@ function getCase($char) {
     }
 }
 
-// get images
-
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +36,7 @@ function getCase($char) {
     <title>Captcha</title>
     <link rel="stylesheet" href="resources/css/captcha.css">
     <link rel="stylesheet" href="resources/css/main.light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
 <body>
 <div class="nav">

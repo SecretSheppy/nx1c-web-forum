@@ -80,7 +80,17 @@ textarea {
 
 #admin::after {
     content: "admin";
-    background-color: #dc2222;
+    animation: background-color-animation linear infinite 3s;
+    animation-direction: alternate;
+}
+
+@keyframes background-color-animation {
+    0% {background-color: #ff6c6c
+    }
+    50% {background-color: #63ff63
+    }
+    100% {background-color: #7171ff
+    }
 }
 
 #mod::after {
@@ -143,6 +153,12 @@ textarea:focus {
     font-family: "Trebuchet MS", serif;
     margin-right: 20px;
     color: var(--theme-bgcolor);
+}
+
+.nav > p {
+    font-family: "Trebuchet MS", serif;
+    color: var(--input-color);
+    font-size: 20px;
 }
 
 a.theme {
@@ -233,6 +249,20 @@ main content styling
     padding: 20px;
 }
 
+.main-wrapper > .users > .inner > .user {
+    display: flex;
+    align-items: center;
+}
+
+.main-wrapper > .users > .inner > .user:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.main-wrapper > .users > .inner > .user > a {
+    margin-left: auto;
+    order: 2;
+}
+
 .main-wrapper > .users > .inner > .login-banner {
     width: 100%;
     height: 100%;
@@ -273,6 +303,7 @@ a.tag {
     padding: 0;
     background: transparent;
     border-radius: 0;
+    margin-right: 5px;
 }
 
 a.tag:hover {
@@ -353,6 +384,35 @@ a.tag::before {
     padding: 20px;
 }
 
+.main-wrapper > .post-wrapper > form > select {
+    min-width: 200px;
+}
+
+.main-wrapper > .post-wrapper > form > input:not([type="submit"]) {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.main-wrapper > .post-wrapper > form > input[type="color"] {
+    width: 200px;
+}
+
+.main-wrapper > .post-wrapper > form > .button-wrapper {
+    margin-top: 20px;
+}
+
+.main-wrapper > .post-wrapper > form > .button-wrapper > input[type="submit"] {
+    background-color: var(--theme-bgcolor);
+    color: #fff;
+    float: right;
+}
+
+.main-wrapper > .post-wrapper > form > input:focus,
+.main-wrapper > .post-wrapper > form > select:focus {
+    outline: solid 3px var(--theme-bgcolor);
+    outline-offset: -1px;
+}
+
 .main-wrapper > .post-wrapper p,
 .main-wrapper > .post-wrapper h1,
 .main-wrapper > .post-wrapper h2 {
@@ -364,7 +424,8 @@ a.tag::before {
 }
 
 .main-wrapper > .post-wrapper > .post p > a,
-.main-wrapper > .post-wrapper > .replies > .reply p > a {
+.main-wrapper > .post-wrapper > .replies > .reply p > a,
+.link {
     padding: 0;
     color: var(--theme-bgcolor);
     background-color: transparent;
@@ -380,13 +441,29 @@ a.tag::before {
     padding-top: 5px;
 }
 
-.reply > .reply-info a {
+.reply > .reply-info a,
+.username-display {
     background-color: transparent;
     padding: 0;
     color: var(--input-color);
 }
 
-.reply > .reply-info a:hover {
+.username-container {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.username-container > .username-container-right {
+    margin-left: auto;
+    order: 2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.reply > .reply-info a:hover,
+.username-display:hover {
     color: var(--theme-bgcolor);
 }
 
@@ -486,4 +563,119 @@ footer styling
 
 .footer > .element > a:hover {
     color: #fff;
+}
+
+/*
+nx1c footer
+ */
+
+.nx1c-footer {
+    width: 100%;
+    background-color: #131313;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.nx1c-footer > p {
+    color: #b7b7b7;
+    font-family: "Trebuchet MS", serif;
+}
+
+.nx1c-footer > p > a {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: #fff;
+}
+
+.nx1c-footer > p > a:hover {
+    text-decoration: underline;
+    color: #45bbe7;
+}
+
+/*
+loader styling and animation
+ */
+
+.loader {
+    position: absolute;
+    height: 8px;
+    background-color: var(--theme-bgcolor);
+    content: " ";
+    animation: load 1.3s;
+    z-index: 9999;
+}
+
+@keyframes load {
+    0% {
+        width: 0;
+    }
+    50% {
+        width: 100vw;
+        opacity: 1;
+    }
+    99% {
+        opacity: 0;
+        display: block;
+    }
+    100% {
+        display: none;
+    }
+}
+
+.label-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    text-align: left;
+    color: var(--input-color);
+}
+
+hr {
+    border: none;
+    border-bottom: solid 2px var(--input-color);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--input-color);
+    margin-top: 10px;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #DDD;
+}
+
+tr:hover:not(:first-child) {
+    background-color: var(--theme-bgcolor);
+    color: #fff !important;
+}
+
+@media screen and (max-width: 640px) {
+    .nav > .search-wrapper {
+        display: none;
+    }
+    .main-wrapper,
+    .pre-footer > .inner,
+    .subnav > .inner {
+        min-width: 90%;
+    }
+    .main-wrapper > .users {
+        display: none;
+    }
+    .main-wrapper > .content {
+        width: 100%;
+    }
+    .footer {
+        display: block;
+    }
+    .footer > .element {
+        width: 100%;
+    }
 }

@@ -6,17 +6,22 @@ include 'tools/gate_keeper.php';
 gate_keeper(0);
 
 include 'protected/db.inc.php';
+include 'tools/text_formatting.php';
 
 // TODO https://stackoverflow.com/questions/7537377/how-to-include-a-php-variable-inside-a-mysql-statement
 // TODO using protected/sql/search.sql
 
 if (isset($_GET["search-value"])) {
-    $sql = "SELECT posts.postid, posts.title, posts.content, users.name, users.role FROM posts, users WHERE posts.userid = users.userid AND posts.content LIKE '%" . $_GET["search-value"] . "%' ORDER BY posts.postid DESC";
+    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND posts.content LIKE '%" . $_GET["search-value"] . "%' ORDER BY posts.postid DESC LIMIT 30";
+} else if (isset($_GET["userid"])) {
+    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND users.userid = " . $_GET["userid"] . " ORDER BY posts.postid DESC LIMIT 30";
+} else if (isset($_GET["tag"])) {
+    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND posts.tags LIKE '%" . $_GET["tag"] . "%' ORDER BY posts.postid DESC LIMIT 30";
 } else {
-    $sql = "SELECT posts.postid, posts.title, posts.content, users.name, users.role FROM posts, users WHERE posts.userid = users.userid ORDER BY posts.postid DESC";
+    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid ORDER BY posts.postid DESC LIMIT 30";
 }
+
 $result = $db->query($sql);
-$db->close();
 
 ?>
 
@@ -26,11 +31,13 @@ $db->close();
     <meta charset="UTF-8">
     <title>NX1C - Home</title>
     <link rel="stylesheet" href="resources/css/main.light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <?php
     include 'tools/ui_mode.inc.php';
     ?>
 </head>
 <body>
+<div class="loader"></div>
 <div class="nav">
     <h1>NX1C</h1>
     <form class="search-wrapper" action="nx1c.php" method="get" enctype="application/x-www-form-urlencoded">
@@ -59,29 +66,47 @@ $db->close();
 <div class="navblocker"></div>
 <div class="main-wrapper">
     <div class="content">
-        <div class="item" style="min-height: 0; height: fit-content;">
-            <div class="inner" style="padding: 30px 20px 30px 20px;">
-                <a href="write.php" class="theme">Write A Post</a>
-                <a href="write.php">See My Posts</a>
-            </div>
-        </div>
         <?php
+
+        if (isset($_SESSION["user"])) {
+            echo '<div class="item" style="min-height: 0; height: fit-content;">
+                    <div class="inner" style="padding: 30px 20px 30px 20px;">
+                        <a href="compose.php" class="theme">Write A Post</a>
+                        <a href="nx1c.php?userid=' . $_SESSION["user"]["id"] . '">See My Posts</a>
+                    </div>
+                </div>';
+        }
 
         if ($result->num_rows > 0) {
             for ($i = 0; $i < $result->num_rows; $i++) {
                 $row = $result->fetch_assoc();
                 echo '<div class="item">
                         <div class="inner">
+                            <div class="username-container">
+                                <a class="username-display" href="nx1c.php?userid=' . $row["userid"] . '" id="' . $row["role"] . '"><strong>' . $row["name"] . '</strong></a>
+                                <div class="username-container-right">
+                                    <p><strong>' . $row["likes"] . '</strong> Likes</p>
+                                </div>
+                            </div>
                             <h1>' . $row["title"] . '</h1>
                             <div class="tags">
-                                <a class="tag" href="search.php?search-value=tag1&type=tag">Tag1</a>
-                                <a class="tag" href="#">Tag2</a>
-                                <a class="tag" href="#">Tag3</a>
-                            </div>
-                            <p>' . $row["content"] . '</p>
-                        </div>
+                                ';
+
+                if ($row["tags"] !== null) {
+                    $tags = explode(", ", $row["tags"]);
+
+                    foreach ($tags as $tag) {
+                        echo '<a class="tag" href="nx1c.php?tag=' . $tag . '">' . $tag . '</a>';
+                    }
+                }
+
+                echo '</div>';
+
+                echo print_paragraph($row["content"]);
+
+                echo '</div>
                         <div class="center">
-                            <a href="post.php?post_id=' . $row["postid"] . '">See Full Post</a>
+                            <a href="post.php?postid=' . $row["postid"] . '">See Full Post</a>
                         </div>
                     </div>';
             }
@@ -92,14 +117,34 @@ $db->close();
     </div>
     <div class="users">
         <div class="inner">
-            <!-- default non logged in screen -->
-            <div class="login-banner">
-                <div class="lb-inner">
-                    <h3>Login to see highest rated users</h3>
-                    <br>
-                    <a href="login.php" class="theme">Login</a>
-                </div>
-            </div>
+            <?php
+
+            if (!isset($_SESSION["user"])) {
+                echo '<div class="login-banner">
+                        <div class="lb-inner">
+                            <h3>Login to see highest rated users</h3>
+                            <br>
+                            <a href="login.php" class="theme">Login</a>
+                        </div>
+                    </div>';
+            } else {
+
+                $sql = "SELECT userid, name, upvotes FROM users ORDER BY upvotes DESC LIMIT 8";
+                $result = $db->query($sql);
+                for ($i = 0; $i < $result->num_rows; $i++) {
+                    $row = $result->fetch_assoc();
+                    echo '<div class="user">
+                            <div>
+                                <h3>' . $row["name"] . '</h3> 
+                                <p>' . $row["upvotes"] . ' Likes</p>                    
+                            </div>
+                            <a href="nx1c.php?userid=' . $row["userid"] . '">View</a>
+                        </div>';
+                }
+
+            }
+
+            ?>
         </div>
     </div>
 </div>
@@ -135,5 +180,12 @@ $db->close();
         <a href="https://daunt.link">Daunt</a>
     </div>
 </div>
+<div class="nx1c-footer">
+    <p>Powered by <a href="https://github.com/nx1c" target="_blank">NX1C main framework</a></p>
+</div>
 </body>
 </html>
+
+<?php
+
+$db->close();

@@ -5,11 +5,20 @@ session_start();
 include 'tools/gate_keeper.php';
 gate_keeper(0);
 
-// format for adding user data
-if ($_SESSION["User"] != "undefined") {
-    // Do user setup here
-} else {
-    // do regular setup here
+include 'protected/db.inc.php';
+include 'tools/text_formatting.php';
+
+if (!isset($_GET["postid"]) && $_GET["postid"] != "") {
+    header("Location: nx1c.php");
+    exit();
+}
+
+if (isset($_GET["like"]) && isset($_SESSION["user"])) {
+    $sql = "UPDATE posts SET likes = likes + 1 WHERE postid = " . $_GET["postid"];
+    if ($db->query($sql) !== true) {
+        header("Location: err.php?msg=" . $db->error);
+        exit();
+    }
 }
 
 ?>
@@ -20,21 +29,28 @@ if ($_SESSION["User"] != "undefined") {
     <meta charset="UTF-8">
     <title>NX1C - Post</title>
     <link rel="stylesheet" href="resources/css/main.light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <?php
     include 'tools/ui_mode.inc.php';
     ?>
 </head>
 <body>
+<div class="loader"></div>
 <div class="nav">
     <h1>NX1C</h1>
-    <form class="search-wrapper" action="search.php" method="get" enctype="application/x-www-form-urlencoded">
+    <form class="search-wrapper" action="nx1c.php" method="get" enctype="application/x-www-form-urlencoded">
         <input name="search-value" placeholder="Search..." minlength="1" type="text"/>
-        <input type="hidden" value="text" name="type"/>
         <input type="submit" value="Search" />
     </form>
     <div class="button-wrapper">
-        <a href="#">Sign Up</a>
-        <a href="login.php" class="theme">Login</a>
+        <?php
+        if (isset($_SESSION["user"])) {
+            echo '<a href="account.php" class="theme">' . $_SESSION["user"]["name"] . '</a>';
+        } else {
+            echo '<a href="signup.php">Sign Up</a>
+        <a href="login.php" class="theme">Login</a>';
+        }
+        ?>
     </div>
 </div>
 <div class="subnav">
@@ -49,158 +65,94 @@ if ($_SESSION["User"] != "undefined") {
 <div class="main-wrapper">
     <div class="post-wrapper">
         <div class="post">
-            <h1>Article Title</h1>
-            <div class="tags">
-                <a class="tag" href="search.php?search-value=tag1&type=tag">Tag1</a>
-                <a class="tag" href="#">Tag2</a>
-                <a class="tag" href="#">Tag3</a>
-            </div>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Neque aliquam vestibulum morbi blandit cursus risus at. Tristique risus nec feugiat in. Tempor commodo ullamcorper a lacus vestibulum. Eleifend donec pretium vulputate sapien nec sagittis aliquam malesuada. Placerat vestibulum lectus mauris ultrices eros in cursus turpis. Elementum nisi quis eleifend quam adipiscing vitae proin sagittis nisl. Volutpat consequat mauris nunc congue nisi. Convallis convallis tellus id interdum velit laoreet. Erat nam at lectus urna duis convallis. Tellus pellentesque eu tincidunt tortor aliquam nulla facilisi cras. Sed vulputate odio ut enim. Neque egestas congue quisque egestas diam in arcu cursus. Non blandit massa enim nec dui. Sed cras ornare arcu dui vivamus. Ornare suspendisse sed nisi lacus sed.
-                <br>
-                <br>
-                Dignissim sodales ut eu sem integer vitae justo eget magna. Nulla malesuada pellentesque elit eget gravida cum sociis natoque penatibus. Arcu ac tortor dignissim convallis. Interdum velit euismod in pellentesque massa placerat duis ultricies lacus. Tempus imperdiet nulla malesuada pellentesque elit eget. Neque sodales ut etiam sit amet nisl purus in. Imperdiet sed euismod nisi porta lorem mollis. Porta nibh venenatis cras sed felis eget velit aliquet sagittis. Scelerisque viverra mauris in aliquam sem fringilla ut morbi tincidunt. Quam elementum pulvinar etiam non quam lacus suspendisse faucibus interdum. Eu scelerisque felis imperdiet proin fermentum.
-                <br>
-                <br>
-                Augue eget arcu dictum varius duis at consectetur lorem donec. Quis eleifend quam adipiscing vitae. Euismod elementum nisi quis eleifend quam adipiscing vitae proin. Cras sed felis eget velit aliquet sagittis id. Sagittis orci a scelerisque purus semper eget. Nunc lobortis mattis aliquam faucibus. At elementum eu facilisis sed odio morbi quis. Adipiscing diam donec adipiscing tristique risus. Sed risus ultricies tristique nulla aliquet enim tortor at. Cursus eget nunc scelerisque viverra mauris. Non odio euismod lacinia at quis.
-                <br>
-                <br>
-                Augue interdum velit euismod in pellentesque massa placerat duis ultricies. Risus quis varius quam quisque id diam vel. A iaculis at erat pellentesque adipiscing commodo elit at imperdiet. Sollicitudin ac orci phasellus egestas. Auctor neque vitae tempus quam pellentesque nec nam aliquam sem. Molestie a iaculis at erat pellentesque adipiscing commodo elit. Aliquet lectus proin nibh nisl condimentum id venenatis a. Non pulvinar neque laoreet suspendisse interdum consectetur. Amet commodo nulla facilisi nullam vehicula. Magna sit amet purus gravida quis blandit turpis cursus in. Sed libero enim sed faucibus turpis in eu mi bibendum. Lorem ipsum dolor sit amet consectetur.
-                <br>
-                <br>
-                Tempus iaculis urna id volutpat lacus laoreet non. Faucibus pulvinar elementum integer enim neque volutpat ac tincidunt. Integer malesuada nunc vel risus commodo viverra maecenas accumsan lacus. Quis eleifend quam adipiscing vitae proin sagittis nisl. Convallis tellus id interdum velit laoreet id donec ultrices. Cras pulvinar mattis nunc sed blandit libero volutpat sed. Mauris nunc congue nisi vitae suscipit tellus mauris. Ante in nibh mauris cursus mattis. Arcu odio ut sem nulla pharetra diam sit amet nisl. Pretium fusce id velit ut tortor pretium viverra suspendisse potenti. Nulla porttitor massa id neque aliquam vestibulum morbi. Auctor augue mauris augue neque gravida in fermentum. Posuere urna nec tincidunt praesent semper. Habitant morbi tristique senectus et. Elit sed vulputate mi sit. A scelerisque purus semper eget duis at. Duis tristique sollicitudin nibh sit amet commodo nulla facilisi nullam. At quis risus sed vulputate odio ut enim blandit volutpat. Adipiscing elit ut aliquam purus sit.
-                <br>
-                <br>
-                see link: <a href="#">https://www.google.com/</a>
-            </p>
+            <?php
+
+            // getting the post from database
+            $postid = $_GET["postid"];
+            $sql = "SELECT * FROM posts, users WHERE posts.userid = users.userid AND postid = '$postid'";
+            $result = $db->query($sql);
+
+            if ($result->num_rows == 0) {
+                header("Location: nx1c.php");
+                exit();
+            }
+
+            $row = $result->fetch_assoc();
+
+            echo '<div class="username-container">
+                    <a class="username-display" href="nx1c.php?userid=' . $row["userid"] . '" id="' . $row["role"] . '"><strong>' . $row["name"] . '</strong></a>
+                    <div class="username-container-right">
+                        <p><strong>' . $row["likes"] . '</strong> Likes</p>';
+            if (isset($_SESSION["user"])) echo '<a class="link" href="?postid=' . $postid . '&like">Like this post</a>';
+            echo '</div>
+                </div>
+                <h1>' . $row["title"] . '</h1>
+                <div class="tags">';
+
+            if ($row["tags"] !== null) {
+                $tags = explode(", ", $row["tags"]);
+
+                foreach ($tags as $tag) {
+                    echo '<a class="tag" href="nx1c.php?tag=' . $tag . '">' . $tag . '</a>';
+                }
+            }
+
+            echo '</div>';
+
+            ?>
+            <?php
+
+            // TODO
+
+            echo print_paragraph($row["content"], true);
+
+            ?>
         </div>
         <h2>Comments</h2>
         <div class="replies">
-            <div class="reply">
-                <div class="reply-info">
-                    <a href="nx1c.php?filter_by=user&user_id=0" id="admin">Username</a>
-                    <a href="reply.php?post_id=0&comment_id=0">reply</a>
-                </div>
-                <div class="reply-text">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Convallis posuere morbi leo urna molestie at elementum eu. Interdum varius sit amet mattis vulputate enim nulla. Purus gravida quis blandit turpis cursus. Vestibulum lorem sed risus ultricies tristique nulla aliquet. Aliquet enim tortor at auctor urna nunc id cursus. Egestas maecenas pharetra convallis posuere morbi leo. Aliquam purus sit amet luctus venenatis. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant morbi. Congue mauris rhoncus aenean vel elit. Fringilla ut morbi tincidunt augue interdum velit euismod in pellentesque. Neque volutpat ac tincidunt vitae semper quis lectus. Ipsum suspendisse ultrices gravida dictum fusce ut placerat orci nulla. Vestibulum morbi blandit cursus risus at ultrices mi tempus. Scelerisque eleifend donec pretium vulputate sapien. Mollis nunc sed id semper risus in. Auctor neque vitae tempus quam pellentesque nec nam aliquam. Semper feugiat nibh sed pulvinar proin gravida.</p>
-                </div>
-                <div class="reply">
-                    <div class="reply-info">
-                        <a href="nx1c.php?filter_by=user&user_id=0" id="mod">Username</a>
-                        <a href="reply.php?post_id=0&comment_id=0">reply</a>
-                    </div>
-                    <div class="reply-text">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat in fermentum posuere urna nec tincidunt. Vulputate enim nulla aliquet porttitor lacus luctus accumsan tortor. Et malesuada fames ac turpis egestas. Ipsum dolor sit amet consectetur adipiscing elit ut. In arcu cursus euismod quis. Elit pellentesque habitant morbi tristique senectus et netus et malesuada. Nunc faucibus a pellentesque sit. Amet facilisis magna etiam tempor orci. In cursus turpis massa tincidunt dui ut ornare lectus. Suscipit adipiscing bibendum est ultricies integer quis. Auctor augue mauris augue neque gravida in fermentum et. Platea dictumst vestibulum rhoncus est pellentesque. Duis at consectetur lorem donec massa sapien faucibus. Ornare aenean euismod elementum nisi quis eleifend quam adipiscing. Pharetra vel turpis nunc eget lorem dolor sed. Purus sit amet luctus venenatis lectus magna fringilla urna.
-                            <br>
-                            <br>
-                            see link: <a href="#">https://www.google.com/</a>
-                        </p>
-                    </div>
-                    <div class="reply">
+            <?php
+
+            $post_id = $_GET["postid"];
+            $sql = "SELECT * FROM comments WHERE postid = '$post_id'";
+            $result = $db->query($sql);
+
+            for ($i = 0; $i < $result->num_rows; $i++) {
+
+                $comment = $result->fetch_assoc();
+
+                $sql = "SELECT name, role FROM users WHERE userid = " . $comment["userid"];
+                $user_data = $db->query($sql);
+                $user = $user_data->fetch_assoc();
+
+                echo '<div class="reply">
                         <div class="reply-info">
-                            <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
+                            <a href="nx1c.php?userid=' . $comment["userid"] . '" id="' . $user["role"] . '">' . $user["name"] . '</a>
                             <a href="reply.php?post_id=0&comment_id=0">reply</a>
                         </div>
-                        <div class="reply-text">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Facilisi nullam vehicula ipsum a arcu cursus vitae congue. Sed viverra ipsum nunc aliquet bibendum enim facilisis. Lectus magna fringilla urna porttitor rhoncus dolor purus non. Tellus mauris a diam maecenas sed enim ut sem. Porta non pulvinar neque laoreet suspendisse interdum consectetur. Facilisis sed odio morbi quis. Id ornare arcu odio ut sem nulla. Morbi enim nunc faucibus a pellentesque sit amet porttitor eget. Tristique sollicitudin nibh sit amet commodo nulla facilisi nullam vehicula. Bibendum est ultricies integer quis auctor elit sed vulputate mi. Accumsan lacus vel facilisis volutpat est velit egestas dui. Eleifend donec pretium vulputate sapien nec sagittis aliquam malesuada. Tincidunt id aliquet risus feugiat in. Pharetra sit amet aliquam id diam maecenas. Amet volutpat consequat mauris nunc congue nisi.</p>
-                        </div>
-                        <div class="reply">
-                            <div class="reply-info">
-                                <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
-                                <a href="reply.php?post_id=0&comment_id=0">reply</a>
-                            </div>
-                            <div class="reply-text">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet cursus sit amet dictum sit amet justo. Sit amet justo donec enim. Tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Vel fringilla est ullamcorper eget nulla facilisi. Nulla pharetra diam sit amet nisl suscipit adipiscing. Leo urna molestie at elementum eu facilisis sed odio morbi. At tellus at urna condimentum mattis pellentesque. Pulvinar elementum integer enim neque volutpat. Sit amet purus gravida quis blandit turpis cursus. Eu feugiat pretium nibh ipsum consequat nisl vel. Tortor dignissim convallis aenean et tortor at risus. Sed vulputate odio ut enim blandit volutpat maecenas volutpat blandit. Pellentesque elit ullamcorper dignissim cras tincidunt. Adipiscing commodo elit at imperdiet dui accumsan. Phasellus egestas tellus rutrum tellus pellentesque eu tincidunt.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div><div class="reply">
-                <div class="reply-info">
-                    <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
-                    <a href="reply.php?post_id=0&comment_id=0">reply</a>
-                </div>
-                <div class="reply-text">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id consectetur purus ut faucibus pulvinar elementum. Eros donec ac odio tempor orci dapibus ultrices. Massa ultricies mi quis hendrerit. <a href="#">https://www.google.com/</a> Tristique nulla aliquet enim tortor at auctor urna nunc id. Volutpat diam ut venenatis tellus in metus vulputate eu scelerisque. Suspendisse sed nisi lacus sed viverra tellus in. Id cursus metus aliquam eleifend. Quis lectus nulla at volutpat. Justo laoreet sit amet cursus sit amet dictum.</p>
-                </div>
-                <div class="reply">
-                    <div class="reply-info">
-                        <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
-                        <a href="reply.php?post_id=0&comment_id=0">reply</a>
-                    </div>
-                    <div class="reply-text">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed risus pretium quam vulputate dignissim suspendisse in est ante. In mollis nunc sed id semper. Tellus molestie nunc non blandit massa enim nec dui. Cursus eget nunc scelerisque viverra mauris in aliquam. Proin nibh nisl condimentum id venenatis a condimentum. Euismod lacinia at quis risus sed. Vitae tortor condimentum lacinia quis vel eros donec ac. Sed odio morbi quis commodo odio aenean sed adipiscing diam. Nascetur ridiculus mus mauris vitae. Dictum varius duis at consectetur lorem donec. Mollis nunc sed id semper risus in hendrerit. Ut aliquam purus sit amet luctus venenatis lectus. Arcu felis bibendum ut tristique et egestas. Sed velit dignissim sodales ut eu sem integer vitae justo. Ipsum dolor sit amet consectetur. Porta non pulvinar neque laoreet. Mauris pharetra et ultrices neque ornare aenean euismod elementum nisi.</p>
-                    </div>
-                </div>
-            </div><div class="reply">
-                <div class="reply-info">
-                    <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
-                    <a href="reply.php?post_id=0&comment_id=0">reply</a>
-                </div>
-                <div class="reply-text">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed risus pretium quam vulputate dignissim suspendisse in est ante. In mollis nunc sed id semper. Tellus molestie nunc non blandit massa enim nec dui. Cursus eget nunc scelerisque viverra mauris in aliquam. Proin nibh nisl condimentum id venenatis a condimentum. Euismod lacinia at quis risus sed. Vitae tortor condimentum lacinia quis vel eros donec ac. Sed odio morbi quis commodo odio aenean sed adipiscing diam. Nascetur ridiculus mus mauris vitae. Dictum varius duis at consectetur lorem donec. Mollis nunc sed id semper risus in hendrerit. Ut aliquam purus sit amet luctus venenatis lectus. Arcu felis bibendum ut tristique et egestas. Sed velit dignissim sodales ut eu sem integer vitae justo. Ipsum dolor sit amet consectetur. Porta non pulvinar neque laoreet. Mauris pharetra et ultrices neque ornare aenean euismod elementum nisi.</p>
-                </div>
-                <div class="reply">
-                    <div class="reply-info">
-                        <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
-                        <a href="reply.php?post_id=0&comment_id=0">reply</a>
-                    </div>
-                    <div class="reply-text">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Diam sit amet nisl suscipit adipiscing bibendum est ultricies integer. Pharetra pharetra massa massa ultricies mi. Sagittis eu volutpat odio facilisis mauris. Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec sagittis. In fermentum posuere urna nec. Id volutpat lacus laoreet non curabitur gravida arcu. Est velit egestas dui id. Est lorem ipsum dolor sit amet. Faucibus pulvinar elementum integer enim. Eget arcu dictum varius duis at consectetur lorem donec. Vitae tempus quam pellentesque nec. Est ultricies integer quis auctor elit sed vulputate. Cum sociis natoque penatibus et magnis dis parturient montes nascetur. Pharetra diam sit amet nisl suscipit adipiscing. Risus in hendrerit gravida rutrum quisque non tellus. Amet cursus sit amet dictum sit amet justo donec.</p>
-                    </div>
-                    <div class="reply">
-                        <div class="reply-info">
-                            <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
-                            <a href="reply.php?post_id=0&comment_id=0">reply</a>
-                        </div>
-                        <div class="reply-text">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Elit eget gravida cum sociis natoque penatibus. Cras semper auctor neque vitae tempus quam pellentesque nec. Velit euismod in pellentesque massa placerat duis ultricies. Sit amet tellus cras adipiscing enim. Proin libero nunc consequat interdum. Malesuada fames ac turpis egestas maecenas. Sed lectus vestibulum mattis ullamcorper velit sed ullamcorper. Et netus et malesuada fames. Sapien eget mi proin sed.</p>
-                        </div>
-                    </div>
-                </div>
-            </div><div class="reply">
-                <div class="reply-info">
-                    <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
-                    <a href="reply.php?post_id=0&comment_id=0">reply</a>
-                </div>
-                <div class="reply-text">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Adipiscing commodo elit at imperdiet dui accumsan sit amet. Vel elit scelerisque mauris pellentesque pulvinar. Eget egestas purus viverra accumsan in nisl nisi. Sit amet mattis vulputate enim nulla aliquet porttitor. Dignissim enim sit amet venenatis urna cursus eget nunc. Imperdiet dui accumsan sit amet. Bibendum at varius vel pharetra vel. Justo nec ultrices dui sapien eget. Ultrices neque ornare aenean euismod elementum nisi quis eleifend quam. Purus sit amet luctus venenatis lectus magna. Pulvinar etiam non quam lacus. Congue eu consequat ac felis. Sed viverra tellus in hac.</p>
-                </div>
-                <div class="reply">
-                    <div class="reply-info">
-                        <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
-                        <a href="reply.php?post_id=0&comment_id=0">reply</a>
-                    </div>
-                    <div class="reply-text">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In hac habitasse platea dictumst vestibulum. Neque volutpat ac tincidunt vitae semper quis. Sit amet risus nullam eget felis eget nunc. Scelerisque viverra mauris in aliquam. Rhoncus urna neque viverra justo. Ornare massa eget egestas purus viverra accumsan in. Tempus imperdiet nulla malesuada pellentesque elit. Sed arcu non odio euismod. In nulla posuere sollicitudin aliquam ultrices sagittis orci a scelerisque. Leo integer malesuada nunc vel risus. Neque volutpat ac tincidunt vitae semper quis lectus nulla at. Viverra accumsan in nisl nisi. Donec enim diam vulputate ut pharetra sit amet aliquam.</p>
-                    </div>
-                    <div class="reply">
-                        <div class="reply-info">
-                            <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
-                            <a href="reply.php?post_id=0&comment_id=0">reply</a>
-                        </div>
-                        <div class="reply-text">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Elit eget gravida cum sociis natoque penatibus. Cras semper auctor neque vitae tempus quam pellentesque nec. Velit euismod in pellentesque massa placerat duis ultricies. Sit amet tellus cras adipiscing enim. Proin libero nunc consequat interdum. Malesuada fames ac turpis egestas maecenas. Sed lectus vestibulum mattis ullamcorper velit sed ullamcorper. Et netus et malesuada fames. Sapien eget mi proin sed.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="reply">
-                    <div class="reply-info">
-                        <a href="nx1c.php?filter_by=user&user_id=0">Username</a>
-                        <a href="reply.php?post_id=0&comment_id=0">reply</a>
-                    </div>
-                    <div class="reply-text">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In hac habitasse platea dictumst vestibulum. Neque volutpat ac tincidunt vitae semper quis. Sit amet risus nullam eget felis eget nunc. Scelerisque viverra mauris in aliquam. Rhoncus urna neque viverra justo. Ornare massa eget egestas purus viverra accumsan in. Tempus imperdiet nulla malesuada pellentesque elit. Sed arcu non odio euismod. In nulla posuere sollicitudin aliquam ultrices sagittis orci a scelerisque. Leo integer malesuada nunc vel risus. Neque volutpat ac tincidunt vitae semper quis lectus nulla at. Viverra accumsan in nisl nisi. Donec enim diam vulputate ut pharetra sit amet aliquam.</p>
-                    </div>
-                </div>
-            </div>
+                        <div class="reply-text">';
+
+                echo print_paragraph($comment["content"], true);
+
+                echo '</div>';
+
+                echo '</div>';
+
+            }
+
+            ?>
         </div>
-        <h2>Add a Comment</h2>
-        <form action="reply.php" method="post" enctype="application/x-www-form-urlencoded">
-            <textarea name="reply-text" placeholder="Comment..." required></textarea>
-            <input value="Comment" type="submit" class="reply-button" />
-        </form>
+        <?php
+
+        if (isset($_SESSION["user"])) {
+            echo '<h2>Add a Comment</h2>
+                    <form action="comment.php" method="post" enctype="application/x-www-form-urlencoded">
+                        <input type="hidden" name="postid" value="' . $post_id . '" />
+                        <textarea name="content" placeholder="Comment..." required></textarea>
+                        <input value="Comment" type="submit" class="reply-button" />
+                    </form>';
+        }
+
+        ?>
     </div>
 </div>
 <div class="footer">

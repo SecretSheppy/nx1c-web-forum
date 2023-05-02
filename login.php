@@ -24,19 +24,39 @@ $db->close();
     <meta charset="UTF-8">
     <title>User Login</title>
     <link rel="stylesheet" href="resources/css/login.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
 <body>
+<?php
+
+if (isset($error)) {
+    echo '<div class="alert">
+            <p>Incorrect login details used</p>
+        </div>';
+}
+
+?>
 <div class="login-wrapper">
     <div class="login">
         <h1>NX1C</h1>
         <p>User Login</p>
-        <?php if (isset($error)) echo '<h4 style="color: red; margin-bottom: 10px;">Incorrect Login Details Used</h4>'; ?>
         <form method="POST" enctype="application/x-www-form-urlencoded">
-            <input type="text" placeholder="Username" name="username" autocomplete="off" required />
-            <input type="password" placeholder="Password" name="password" autocomplete="off" required />
-            <input type="reset" value="Cancel" class="spacing" />
-            <input type="submit" value="Login" />
+            <div class="label-wrapper">
+                <label for="username">Username</label>
+            </div>
+            <input id="username" type="text" placeholder="Enter your username" name="username" autocomplete="off" required />
+            <div class="label-wrapper">
+                <label for="password">Password</label>
+            </div>
+            <input id="password" type="password" placeholder="Enter your password" name="password" autocomplete="off" required />
+            <div class="button-wrapper">
+                <input type="reset" value="Cancel" class="spacing" />
+                <input type="submit" value="Login" />
+            </div>
         </form>
+        <div class="spacer">
+            <a href="nx1c.php" class="link">Return to home page</a>
+        </div>
     </div>
 </div>
 </body>

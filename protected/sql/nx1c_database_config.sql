@@ -1,36 +1,39 @@
 CREATE DATABASE nx1c;
 USE nx1c;
 
-CREATE TABLE users
+CREATE TABLE Users
 (
-    userid INT NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    uiMode INT(1) DEFAULT 0,
-    theme VARCHAR(255) DEFAULT '#45bbe7',
-    securityToken VARCHAR(255) NOT NULL,
-    PRIMARY KEY (userid)
+    UserId INT NOT NULL,
+    UserName VARCHAR(255) NOT NULL,
+    UserPassword VARCHAR(255) NOT NULL,
+    UserUiMode INT(1) DEFAULT 0,
+    UserTheme VARCHAR(255) DEFAULT '#45bbe7',
+    UserSecurityToken VARCHAR(255) NOT NULL,
+    UserRole VARCHAR(255) DEFAULT NULL,
+    UserLikes INT DEFAULT 0,
+    PRIMARY KEY (UserId)
 );
 
-CREATE TABLE posts
+CREATE TABLE Posts
 (
-    postid INT NOT NULL,
-    userid INT NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    content VARCHAR(65000) NOT NULL,
-    tags VARCHAR(255) DEFAULT NULL,
-    PRIMARY KEY (postid),
-    FOREIGN KEY (userid) REFERENCES users(userid)
+    PostId INT NOT NULL,
+    UserId INT NOT NULL,
+    PostTitle VARCHAR(255) NOT NULL,
+    PostContent VARCHAR(65000) NOT NULL,
+    PostTags VARCHAR(255) DEFAULT NULL,
+    PostLikes INT DEFAULT 0,
+    PRIMARY KEY (PostId),
+    FOREIGN KEY (UserId) REFERENCES Users(UserId)
 );
 
-CREATE TABLE comments
+CREATE TABLE Comments
 (
-    commentid INT NOT NULL,
-    postid INT NOT NULL,
-    userid INT NOT NULL,
-    content VARCHAR(5000) NOT NULL,
-    replyto INT NOT NULL,
-    PRIMARY KEY (commentid),
-    FOREIGN KEY (postid) REFERENCES posts(postid),
-    FOREIGN KEY (userid) REFERENCES users(userid)
+    CommentId INT NOT NULL,
+    PostId INT NOT NULL,
+    UserId INT NOT NULL,
+    CommentContent VARCHAR(5000) NOT NULL,
+    ReplyToId INT DEFAULT NULL,
+    PRIMARY KEY (CommentId),
+    FOREIGN KEY (PostId) REFERENCES Posts(PostId),
+    FOREIGN KEY (UserId) REFERENCES users(UserId)
 );

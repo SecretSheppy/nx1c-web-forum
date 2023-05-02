@@ -2,11 +2,11 @@
 
 session_start();
 
-include 'tools/gate_keeper.inc.php';
+include 'tools/gate_keeper.php';
 gate_keeper(1);
 
 include 'protected/db.inc.php';
-include 'tools/user_login.inc.php';
+include 'tools/user_login.php';
 
 if (isset($_POST["uiMode"])) {
     $sql = "UPDATE users SET uiMode = '" . $_POST["uiMode"] . "', theme = '" . $_POST["theme"] . "' WHERE userid = '" . $_SESSION["user"]["id"] . "'";
@@ -14,6 +14,12 @@ if (isset($_POST["uiMode"])) {
         header("Location: err.php");
         exit();
     }
+}
+
+if (isset($_POST["sign-out"])) {
+    unset($_SESSION["user"]);
+    header("Location: nx1c.php");
+    exit();
 }
 
 // TODO - including password in user array could be dangerous but is needed here
@@ -28,8 +34,9 @@ $db->close();
     <meta charset="UTF-8">
     <title>NX1C - My Account</title>
     <link rel="stylesheet" href="resources/css/main.light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <?php
-    include 'protected/uiMode.inc.php';
+    include 'tools/ui_mode.inc.php';
     ?>
 </head>
 <body>
@@ -66,8 +73,14 @@ $db->close();
             <input type="color" name="theme" <?php echo 'value="' . $_SESSION["user"]["theme"] . '"'; ?> />
             <input type="submit" value="Update Account Settings" />
             <br>
-            <br>
-            <a href="reset-password.php">Reset My Password</a>
+        </form>
+        <form class="block-form" action="reset-password.php" method="POST" enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="allow" value="1" />
+            <input type="submit" value="Reset My Password" />
+        </form>
+        <form class="block-form" action="account.php" method="POST" enctype="application/x-www-form-urlencoded"?>
+            <input type="hidden" name="sign-out" value="1" />
+            <input type="submit" value="Sign Out" />
         </form>
     </div>
 </div>
