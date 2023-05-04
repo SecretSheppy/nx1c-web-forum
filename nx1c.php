@@ -2,8 +2,10 @@
 
 session_start();
 
+include 'tools/load_settings.inc.php';
+
 include 'tools/gate_keeper.php';
-gate_keeper(0);
+gate_keeper($_SESSION["nx1c-installation-settings"]->settings->captcha);
 
 include 'protected/db.inc.php';
 include 'tools/text_formatting.php';
@@ -55,14 +57,9 @@ $result = $db->query($sql);
         ?>
     </div>
 </div>
-<div class="subnav">
-    <div class="inner">
-        <a href="nx1c.php">Home</a>
-        <a href="nx1c.php?filter=recent">Recent</a>
-        <a href="nx1c.php?filter=trending">Trending</a>
-        <a href="nx1c.php?filter=most_popular">Most Popular</a>
-    </div>
-</div>
+<?php
+include 'tools/subnav.inc.php';
+?>
 <div class="navblocker"></div>
 <div class="main-wrapper">
     <div class="content">
