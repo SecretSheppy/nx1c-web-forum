@@ -8,9 +8,17 @@ gate_keeper(1, false);
 include 'protected/db.inc.php';
 include 'tools/user_login.php';
 
-if (isset($_POST["username"])) {
+$username = (string) filter_input(INPUT_POST, "username", FILTER_SANITIZE_ADD_SLASHES);
+$password = (string) filter_input(INPUT_POST, "password", FILTER_SANITIZE_ADD_SLASHES);
+$follow_url = (int) filter_input(INPUT_GET, "follow", FILTER_SANITIZE_ADD_SLASHES);
 
-    $error = user_login($db, $_POST["username"], $_POST["password"], true);
+if ($username != null) {
+
+    $error = user_login($db, $username, $password, is_null($follow_url));
+    if ($error === false) {
+        header("Location: post.php?postid=" . $follow_url);
+        exit();
+    }
 
 }
 
