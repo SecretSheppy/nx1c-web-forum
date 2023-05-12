@@ -110,6 +110,11 @@ login styling
     width: 300px;
 }
 
+.login-wrapper > .login > img {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
 .login-wrapper > .login > h1 {
     color: var(--theme-bgcolor);
     user-select: none;
