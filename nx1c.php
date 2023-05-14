@@ -4,18 +4,42 @@ session_start();
 
 include 'tools/load_settings.inc.php';
 include 'tools/gate_keeper.php';
-gate_keeper($_SESSION["nx1c-installation-settings"]->settings->captcha);
+gate_keeper(0);
 
 include 'protected/db.inc.php';
 include 'tools/text_formatting.php';
+include 'tools/SQLGen.php';
 
+$search_value = (string) filter_input(INPUT_GET, "search-value", FILTER_SANITIZE_ADD_SLASHES);
+$user_id = (int) filter_input(INPUT_GET, "user-id", FILTER_DEFAULT);
+$tag = (string) filter_input(INPUT_GET, "tag", FILTER_SANITIZE_ADD_SLASHES);
 
-if (isset($_GET["search-value"])) {
-    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND posts.content LIKE '%" . $_GET["search-value"] . "%' ORDER BY posts.postid DESC LIMIT 30";
-} else if (isset($_GET["userid"])) {
-    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND users.userid = " . $_GET["userid"] . " ORDER BY posts.postid DESC LIMIT 30";
-} else if (isset($_GET["tag"])) {
-    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND posts.tags LIKE '%" . $_GET["tag"] . "%' ORDER BY posts.postid DESC LIMIT 30";
+if ($search_value != null) {
+    // TODO - finish the generating sql process.
+    $sql = new SQLGen();
+    $sql->select_array(array(
+        "Posts.PostId",
+        "Posts.PostTitle",
+        "Posts.PostContent",
+        "Posts.PostLikes",
+        "Users.UserName",
+        "Users.UserRole",
+        "Users.UserId"
+    ))
+        ->from_array(array(
+        "Posts",
+        "Users"
+    ))
+        ->where("Posts.UserId = Users.UserId")
+        ->order_by("Posts.PostId DESC")
+        ->limit(30);
+    $sql_statement = $sql->get_statement();
+    unset($sql);
+    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND posts.content LIKE '%$search_value%' ORDER BY posts.postid DESC LIMIT 30";
+} else if ($user_id != null) {
+    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND users.userid = $user_id ORDER BY posts.postid DESC LIMIT 30";
+} else if ($tag != null) {
+    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND posts.tags LIKE '%$tag%' ORDER BY posts.postid DESC LIMIT 30";
 } else {
     $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid ORDER BY posts.postid DESC LIMIT 30";
 }
@@ -67,7 +91,7 @@ include 'tools/subnav.inc.php';
             <div class="item" style="min-height: 0; height: fit-content;">
                 <div class="inner" style="padding: 30px 20px 30px 20px;">
                     <a href="compose.php" class="theme">Write A Post</a>
-                    <a href="nx1c.php?userid={$_SESSION["user"]["id"]}">See My Posts</a>
+                    <a href="nx1c.php?user-id={$_SESSION["user"]["id"]}">See My Posts</a>
                 </div>
             </div>
             HTML;
@@ -90,7 +114,7 @@ include 'tools/subnav.inc.php';
                 <div class="item">
                     <div class="inner">
                         <div class="username-container">
-                            <a class="username-display" href="nx1c.php?userid={$row["userid"]}" id="{$row["role"]}"><strong>{$row["name"]}</strong></a>
+                            <a class="username-display" href="nx1c.php?user-id={$row["userid"]}" id="{$row["role"]}"><strong>{$row["name"]}</strong></a>
                             <div class="username-container-right">
                                 <p><strong>{$row["likes"]}</strong> Likes</p>
                             </div>
