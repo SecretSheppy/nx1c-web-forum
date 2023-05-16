@@ -6,18 +6,29 @@ include 'tools/gate_keeper.php';
 gate_keeper(1);
 
 include 'protected/db.inc.php';
+include 'tools/SQLGen.php';
 
-if (isset($_POST["title"])) {
-    $title = $_POST["title"];
-    if (isset($_POST["tags"])) {
-        $tags = $_POST["tags"];
-    } else {
-        $tags = "";
-    }
-    $content = $_POST["content"];
-    $id = $_SESSION["user"]["id"];
-    $sql = "INSERT INTO posts (userid, title, tags, content) VALUES ('$id', '$title', '$tags', '$content')";
-    if ($db->query($sql) !== true) {
+$title = (string) filter_input(INPUT_POST, "title", FILTER_SANITIZE_ADD_SLASHES);
+$tags = (string) filter_input (INPUT_POST, "tags", FILTER_SANITIZE_ADD_SLASHES);
+$content = (string) filter_input(INPUT_POST, "content", FILTER_SANITIZE_ADD_SLASHES);
+$id = $_SESSION["user"]["id"];
+
+if ($title != null) {
+    $sql = new SQLGen();
+    $sql->insert_into("posts")
+        ->fields(array(
+            "userid",
+            "title",
+            "tags",
+            "content"
+        ))
+        ->values(array(
+            $id,
+            $title,
+            $tags,
+            $content
+        ));
+    if ($db->query($sql->get_statement()) !== true) {
         $db->close();
         header("Location: err.php");
     } else {
@@ -28,8 +39,6 @@ if (isset($_POST["title"])) {
 }
 
 $db->close();
-
-// TODO be able to upload pictures
 
 ?>
 
@@ -47,23 +56,40 @@ $db->close();
 <body>
 <div class="nav">
     <h1>NX1C</h1>
+    <form class="search-wrapper" action="search.php" method="get" enctype="application/x-www-form-urlencoded">
+        <input name="search-value" placeholder="Search..." minlength="1" type="text"/>
+        <input type="hidden" value="text" name="type"/>
+        <input type="submit" value="Search" />
+    </form>
     <div class="button-wrapper">
         <a href="nx1c.php" class="theme">Home</a>
     </div>
 </div>
-<div class="subnav">
-    <div class="inner">
-        <p>Write a post</p>
-    </div>
-</div>
+<?php
+include 'tools/subnav.inc.php';
+?>
 <div class="navblocker"></div>
 <div class="main-wrapper">
-    <div class="login-wrapper">
+    <div class="post-wrapper">
+        <h2>Write a post</h2>
+        <p>
+            Write a publicly viewable post (this will be permanently tied to your account and cannot be deleted,
+            even if your account is deleted
+        </p>
         <form action="compose.php" method="post" enctype="application/x-www-form-urlencoded">
-            <input placeholder="Title" name="title" type="text" required />
-            <input placeholder="tag, tag" name="tags" type="text"/>
-            <textarea placeholder="Post Content..." name="content" required></textarea>
-            <input type="submit" value="Publish" class="reply-button" />
+            <div class="label-wrapper">
+                <label for="title">Post Title</label>
+            </div>
+            <input placeholder="Enter Post Title" id="title" name="title" type="text" required />
+            <div class="label-wrapper">
+                <label for="tags">Post Tags (enter tags seperated by commas i.e. tag, tag, tag)</label>
+            </div>
+            <input placeholder="Enter Post Tags" id="tags" name="tags" type="text"/>
+            <div class="label-wrapper">
+                <label for="content">Post Content</label>
+            </div>
+            <textarea placeholder="Enter Post Content" id="content" name="content" required></textarea>
+            <input type="submit" value="Publish" class="reply-button space" />
         </form>
     </div>
 </div>
@@ -89,6 +115,9 @@ $db->close();
         <a href="https://daunt.link">Daunt</a>
     </div>
 </div>
+<?php
+include 'tools/nx1c_footer.inc.php';
+?>
 </body>
 </html>
 
