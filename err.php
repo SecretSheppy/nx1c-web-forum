@@ -26,6 +26,14 @@ include 'protected/captcha.gateKeeper.inc.php';
 <body>
 <div class="nav">
     <h1>NX1C</h1>
+    <form class="search-wrapper" action="search.php" method="get" enctype="application/x-www-form-urlencoded">
+        <input name="search-value" placeholder="Search..." minlength="1" type="text"/>
+        <input type="hidden" value="text" name="type"/>
+        <input type="submit" value="Search" />
+    </form>
+    <div class="button-wrapper">
+        <a href="nx1c.php" class="theme">Home</a>
+    </div>
 </div>
 <div class="subnav">
     <div class="inner">
@@ -57,5 +65,8 @@ include 'protected/captcha.gateKeeper.inc.php';
         <a href="https://daunt.link">Daunt</a>
     </div>
 </div>
+<?php
+include 'tools/nx1c_footer.inc.php';
+?>
 </body>
 </html>
