@@ -38,9 +38,11 @@ $db->close();
 <?php
 
 if (isset($error)) {
-    echo '<div class="alert">
-            <p>Incorrect login details used</p>
-        </div>';
+    echo <<< HTML
+    <div class="alert">
+        <p>Incorrect login details used</p>
+    </div>
+    HTML;
 }
 
 ?>
