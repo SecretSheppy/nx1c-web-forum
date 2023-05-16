@@ -6,12 +6,24 @@ include 'tools/gate_keeper.php';
 gate_keeper(1);
 
 include 'protected/db.inc.php';
+include 'tools/SQLGen.php';
 
-$post_id = $_POST["postid"];
+$post_id = (int) filter_input(INPUT_POST, "postid", FILTER_DEFAULT);
+$content = (string) filter_input(INPUT_POST, "content", FILTER_SANITIZE_ADD_SLASHES);
 $user_id = $_SESSION["user"]["id"];
-$content = $_POST["content"];
-$sql = "INSERT INTO comments (postid, userid, content) VALUES ('$post_id', '$user_id', '$content')";
-if ($db->query($sql) === true) {
+$sql = new SQLGen();
+$sql->insert_into("comments")
+    ->fields(array(
+        "postid",
+        "userid",
+        "content"
+    ))
+    ->values(array(
+        $post_id,
+        $user_id,
+        $content
+    ));
+if ($db->query($sql->get_statement()) === true) {
     header("Location: post.php?postid=" . $_POST["postid"]);
 } else {
     header ("Location: err.php");
