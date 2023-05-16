@@ -15,7 +15,7 @@ if (isset($_POST["username"])) {
     if ($result->num_rows > 0) {
         $_SESSION["super-user"] = $result->fetch_assoc();
         $db->close();
-        header("Location: dash.php?panel=host_config");
+        header("Location: dash.php?panel=host_configuration");
         exit();
     } else {
         $error = true;
@@ -33,6 +33,8 @@ $db->close();
     <meta charset="UTF-8">
     <title>NX1C Control Panel</title>
     <link rel="stylesheet" href="../resources/css/login.css" />
+    <link rel="icon" href="../resources/images/logo.webp" type="image/x-icon">
+    <link rel="shotrcut icon" href="../resources/images/logo.webp">
 </head>
 <body>
 <?php
