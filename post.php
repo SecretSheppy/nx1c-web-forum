@@ -7,8 +7,12 @@ gate_keeper(0);
 
 include 'protected/db.inc.php';
 include 'tools/text_formatting.php';
+include 'tools/SQLGen.php';
 
-if (!isset($_GET["postid"]) && $_GET["postid"] != "") {
+$post_id = (int) filter_input(INPUT_GET, "postid", FILTER_DEFAULT);
+$sql = new SQLGen();
+
+if ($post_id == null) {
     header("Location: nx1c.php");
     exit();
 }
@@ -48,19 +52,14 @@ if (isset($_GET["like"]) && isset($_SESSION["user"])) {
             echo '<a href="account.php" class="theme">' . $_SESSION["user"]["name"] . '</a>';
         } else {
             echo '<a href="signup.php">Sign Up</a>
-        <a href="login.php" class="theme">Login</a>';
+        <a href="login.php?follow=' . $post_id . '" class="theme">Login</a>';
         }
         ?>
     </div>
 </div>
-<div class="subnav">
-    <div class="inner">
-        <a href="nx1c.php">Home</a>
-        <a href="nx1c.php?filter=recent">Recent</a>
-        <a href="nx1c.php?filter=trending">Trending</a>
-        <a href="nx1c.php?filter=most_popular">Most Popular</a>
-    </div>
-</div>
+<?php
+include 'tools/subnav.inc.php';
+?>
 <div class="navblocker"></div>
 <div class="main-wrapper">
     <div class="post-wrapper">
@@ -68,8 +67,7 @@ if (isset($_GET["like"]) && isset($_SESSION["user"])) {
             <?php
 
             // getting the post from database
-            $postid = $_GET["postid"];
-            $sql = "SELECT * FROM posts, users WHERE posts.userid = users.userid AND postid = '$postid'";
+            $sql = "SELECT * FROM posts, users WHERE posts.userid = users.userid AND postid = '$post_id'";
             $result = $db->query($sql);
 
             if ($result->num_rows == 0) {
@@ -79,15 +77,19 @@ if (isset($_GET["like"]) && isset($_SESSION["user"])) {
 
             $row = $result->fetch_assoc();
 
-            echo '<div class="username-container">
-                    <a class="username-display" href="nx1c.php?userid=' . $row["userid"] . '" id="' . $row["role"] . '"><strong>' . $row["name"] . '</strong></a>
-                    <div class="username-container-right">
-                        <p><strong>' . $row["likes"] . '</strong> Likes</p>';
-            if (isset($_SESSION["user"])) echo '<a class="link" href="?postid=' . $postid . '&like">Like this post</a>';
-            echo '</div>
+            echo <<< HTML
+            <div class="username-container">
+                <a class="username-display" href="nx1c.php?user-id={$row["userid"]}" id="{$row["role"]}"><strong>{$row["name"]}</strong></a>
+                <div class="username-container-right">
+                    <p><strong>{$row["likes"]}</strong> Likes</p>
+            HTML;
+            if (isset($_SESSION["user"])) echo '<a class="link" href="?postid=' . $post_id . '&like">Like this post</a>';
+            echo <<< HTML
                 </div>
-                <h1>' . $row["title"] . '</h1>
-                <div class="tags">';
+            </div>
+            <h1>{$row["title"]}</h1>
+            <div class="tags">
+            HTML;
 
             if ($row["tags"] !== null) {
                 $tags = explode(", ", $row["tags"]);
@@ -112,7 +114,6 @@ if (isset($_GET["like"]) && isset($_SESSION["user"])) {
         <div class="replies">
             <?php
 
-            $post_id = $_GET["postid"];
             $sql = "SELECT * FROM comments WHERE postid = '$post_id'";
             $result = $db->query($sql);
 
@@ -124,18 +125,16 @@ if (isset($_GET["like"]) && isset($_SESSION["user"])) {
                 $user_data = $db->query($sql);
                 $user = $user_data->fetch_assoc();
 
-                echo '<div class="reply">
-                        <div class="reply-info">
-                            <a href="nx1c.php?userid=' . $comment["userid"] . '" id="' . $user["role"] . '">' . $user["name"] . '</a>
-                            <a href="reply.php?post_id=0&comment_id=0">reply</a>
-                        </div>
-                        <div class="reply-text">';
-
+                echo <<< HTML
+                <div class="reply">
+                    <div class="reply-info">
+                        <a href="nx1c.php?userid={$comment["userid"]}" id="{$user["role"]}">{$user["name"]}</a>
+                        <a href="reply.php?post_id=0&comment_id=0">reply</a>
+                    </div>
+                    <div class="reply-text">
+                HTML;
                 echo print_paragraph($comment["content"], true);
-
-                echo '</div>';
-
-                echo '</div>';
+                echo '</div></div>';
 
             }
 
@@ -144,12 +143,14 @@ if (isset($_GET["like"]) && isset($_SESSION["user"])) {
         <?php
 
         if (isset($_SESSION["user"])) {
-            echo '<h2>Add a Comment</h2>
-                    <form action="comment.php" method="post" enctype="application/x-www-form-urlencoded">
-                        <input type="hidden" name="postid" value="' . $post_id . '" />
-                        <textarea name="content" placeholder="Comment..." required></textarea>
-                        <input value="Comment" type="submit" class="reply-button" />
-                    </form>';
+            echo <<< HTML
+            <h2>Add a Comment</h2>
+            <form action="comment.php" method="post" enctype="application/x-www-form-urlencoded">
+                <input type="hidden" name="postid" value="{$post_id}" />
+                <textarea name="content" placeholder="Comment..." class="space" required></textarea>
+                <input value="Comment" type="submit" class="reply-button" />
+            </form>
+            HTML;
         }
 
         ?>
@@ -177,5 +178,8 @@ if (isset($_GET["like"]) && isset($_SESSION["user"])) {
         <a href="https://daunt.link">Daunt</a>
     </div>
 </div>
+<?php
+include 'tools/nx1c_footer.inc.php';
+?>
 </body>
 </html>

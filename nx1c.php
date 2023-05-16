@@ -13,6 +13,7 @@ include 'tools/SQLGen.php';
 $search_value = (string) filter_input(INPUT_GET, "search-value", FILTER_SANITIZE_ADD_SLASHES);
 $user_id = (int) filter_input(INPUT_GET, "user-id", FILTER_DEFAULT);
 $tag = (string) filter_input(INPUT_GET, "tag", FILTER_SANITIZE_ADD_SLASHES);
+$next_post_block = (int) filter_input(INPUT_GET, "next-post-block", FILTER_DEFAULT);
 
 if ($search_value != null) {
     // TODO - finish the generating sql process.
@@ -40,6 +41,8 @@ if ($search_value != null) {
     $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND users.userid = $user_id ORDER BY posts.postid DESC LIMIT 30";
 } else if ($tag != null) {
     $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND posts.tags LIKE '%$tag%' ORDER BY posts.postid DESC LIMIT 30";
+} else if ($next_post_block != null) {
+    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND posts.postid < $next_post_block ORDER BY posts.postid DESC LIMIT 30";
 } else {
     $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid ORDER BY posts.postid DESC LIMIT 30";
 }
@@ -104,6 +107,10 @@ include 'tools/subnav.inc.php';
                 $paragraph_data = print_paragraph($row["content"]);
                 $tags_data = "";
 
+                if ($i == $result->num_rows - 1) {
+                    $last_post_id = $row["postid"];
+                }
+
                 if ($row["tags"] !== null) {
                     foreach (explode(", ", $row["tags"]) as $tag) {
                         $tags_data .= '<a class="tag" href="nx1c.php?tag=' . $tag . '">' . $tag . '</a>';
@@ -158,7 +165,6 @@ include 'tools/subnav.inc.php';
                 </div>
                 HTML;
             } else {
-
                 $sql = "SELECT userid, name, upvotes FROM users ORDER BY upvotes DESC LIMIT 8";
                 $result = $db->query($sql);
                 for ($i = 0; $i < $result->num_rows; $i++) {
@@ -169,7 +175,7 @@ include 'tools/subnav.inc.php';
                             <h3>{$row["name"]}</h3> 
                             <p>{$row["upvotes"]} Likes</p>                    
                         </div>
-                        <a href="nx1c.php?userid={$row["userid"]}">View</a>
+                        <a href="nx1c.php?user-id={$row["userid"]}">View</a>
                     </div>
                     HTML;
                 }
@@ -183,10 +189,10 @@ include 'tools/subnav.inc.php';
 <div class="pre-footer">
     <div class="inner">
         <div class="prev">
-            <a href="#">Previous</a>
+            <a <?php if ($next_post_block != null) echo 'href="?next-post-block=' . $next_post_block + 30 . '"'; ?>>Previous</a>
         </div>
         <div class="next">
-            <a href="#">Next</a>
+            <a <?php echo "href='?next-post-block=$last_post_id'" ?>>Next</a>
         </div>
     </div>
 </div>
@@ -212,9 +218,9 @@ include 'tools/subnav.inc.php';
         <a href="https://daunt.link">Daunt</a>
     </div>
 </div>
-<div class="nx1c-footer">
-    <p>Powered by <a href="https://github.com/nx1c" target="_blank">NX1C main framework</a></p>
-</div>
+<?php
+include 'tools/nx1c_footer.inc.php';
+?>
 </body>
 </html>
 
