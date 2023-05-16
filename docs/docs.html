@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            width: 800px;
+            margin: 0 auto;
+            background-color: #2d2d2d;
+        }
+
+        h1, h2, h3, p {
+             font-family: 'Noto Sans', sans-serif;
+             color: #fff;
+         }
+
+        .header, .footer {
+            display: flex;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 0 0 20px 20px;
+            align-items: center;
+            gap: 20px;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .footer {
+            border-radius: 20px 20px 0 0;
+        }
+
+        .footer p {
+            color: #000;
+        }
+
+        .footer > div {
+            line-height: 5px;
+        }
+
+        .header > h1 {
+            color: #45bbe7;
+        }
+
+        .header > img {
+            width: 100px;
+        }
+
+        hr {
+            border: none;
+            border-bottom: solid 2px #fff;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            color: #fff;
+        }
+
+        img:not(#logo) {
+            width: 100%;
+        }
+
+        key {
+            padding: 10px;
+            background-color: #afafaf;
+            color: #2d2d2d;
+            font-weight: bold;
+            font-family: 'Noto Sans', sans-serif;
+            border-radius: 5px;
+        }
+
+        .key-binding {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            color: #fff;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600&family=Raleway:wght@600&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <img src="logo.webp" id="logo">
+    <h1>Documentation</h1>
+</div>
+<h1>Overview</h1>
+<p></p>
+
+<br>
+<div class="footer">
+    <img src="https://resources.secretsheppy.com/images/root/logo.webp" style="height: 100px; border-radius: 100px;" id="logo">
+    <div>
+        <p>OpenExplorer available under MIT license</p>
+        <p>Copyright (c) 2023 SecretSheppy</p>
+    </div>
+</div>
+</body>
+</html>
