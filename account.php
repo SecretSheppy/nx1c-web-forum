@@ -7,16 +7,28 @@ gate_keeper(1);
 
 include 'protected/db.inc.php';
 include 'tools/user_login.php';
+include 'tools/SQLGen.php';
 
-if (isset($_POST["uiMode"])) {
-    $sql = "UPDATE users SET uiMode = '" . $_POST["uiMode"] . "', theme = '" . $_POST["theme"] . "' WHERE userid = '" . $_SESSION["user"]["id"] . "'";
-    if ($db->query($sql) === false) {
+$ui_mode = (int) filter_input(INPUT_POST, "ui-mode", FILTER_DEFAULT);
+$theme = filter_input(INPUT_POST, "theme", FILTER_DEFAULT);
+$sign_out = (int) filter_input(INPUT_POST, "sign-out", FILTER_DEFAULT);
+$user_id = $_SESSION["user"]["id"];
+$sql = new SQLGen();
+
+if ($ui_mode != null) {
+    $sql->update("users")
+        ->set(array(
+            "uiMode = $ui_mode",
+            "theme = '$theme'"
+        ))
+        ->where("userid = $user_id");
+    if ($db->query($sql->get_statement()) === false) {
         header("Location: err.php");
         exit();
     }
 }
 
-if (isset($_POST["sign-out"])) {
+if ($sign_out != null) {
     unset($_SESSION["user"]);
     header("Location: nx1c.php");
     exit();
@@ -51,34 +63,55 @@ $db->close();
         <a href="nx1c.php" class="theme">Home</a>
     </div>
 </div>
-<div class="subnav">
-    <div class="inner">
-        <p>Manage you NX1C account</p>
-    </div>
-</div>
+<?php
+include 'tools/subnav.inc.php';
+?>
 <div class="navblocker"></div>
 <div class="main-wrapper">
-    <div class="login-wrapper">
-        <div class="button-wrapper">
-            <a href="account.php" class="focus"><h2>MANAGE ACCOUNT</h2></a>
-            <a href=""><h2>DELETE ACCOUNT</h2></a>
-        </div>
-        <form class="block-form" action="account.php" method="post" enctype="application/x-www-form-urlencoded">
-            <label>Interface Mode</label>
-            <select name="uiMode" <?php echo 'value="' . $_SESSION["user"]["uiMode"] . '"'; ?>>
-                <option value="0">Light</option>
-                <option value="1">Dark</option>
+    <div class="post-wrapper">
+        <h2>My Account</h2>
+        <p>Manage your account</p>
+        <hr>
+        <form class="block-form" method="post" enctype="application/x-www-form-urlencoded">
+            <h2>Theme Settings</h2>
+            <p>Customise your account with light or dark themes and a custom color</p>
+            <div class="label-wrapper">
+                <label for="uiMode">Account Theme</label>
+            </div>
+            <select id="uiMode" name="ui-mode">
+                <option value="2" <?php if ($_SESSION["user"]["uiMode"] == 2) echo "selected" ?>>Light</option>
+                <option value="1" <?php if ($_SESSION["user"]["uiMode"] == 1) echo "selected" ?>>Dark</option>
             </select>
-            <label>Custom Color Theme</label>
-            <input type="color" name="theme" <?php echo 'value="' . $_SESSION["user"]["theme"] . '"'; ?> />
-            <input type="submit" value="Update Account Settings" />
-            <br>
+            <div class="label-wrapper">
+                <label for="theme">Account Color Theme</label>
+            </div>
+            <input type="color" id="theme" name="theme" <?php echo 'value="' . $_SESSION["user"]["theme"] . '"'; ?> />
+            <div class="label-wrapper">
+                <label for="theme">Update your theme settings</label>
+            </div>
+            <input type="submit" value="Update" />
+            <hr>
         </form>
         <form class="block-form" action="reset-password.php" method="POST" enctype="application/x-www-form-urlencoded">
-            <input type="hidden" name="allow" value="1" />
-            <input type="submit" value="Reset My Password" />
+            <h2>Reset Password</h2>
+            <p>Change your password</p>
+            <div class="label-wrapper">
+                <label for="current-password">Current Password</label>
+            </div>
+            <input placeholder="Enter Current Password" type="password" id="current-password" name="current-password" required />
+            <div class="label-wrapper">
+                <label for="new-password">New Password</label>
+            </div>
+            <input placeholder="Enter New Password" type="password" id="new-password" name="new-password" required />
+            <div class="label-wrapper">
+                <label for="confirm-new-password">Confirm New Password</label>
+            </div>
+            <input placeholder="Confirm New Password" type="password" id="confirm-new-password" name="confirm-new-password" required />
+            <hr>
         </form>
-        <form class="block-form" action="account.php" method="POST" enctype="application/x-www-form-urlencoded"?>
+        <form class="block-form" action="account.php" method="POST" enctype="application/x-www-form-urlencoded">
+            <h2>Sign Out</h2>
+            <p>Sign out of your account</p>
             <input type="hidden" name="sign-out" value="1" />
             <input type="submit" value="Sign Out" />
         </form>
@@ -106,5 +139,8 @@ $db->close();
         <a href="https://daunt.link">Daunt</a>
     </div>
 </div>
+<?php
+include 'tools/nx1c_footer.inc.php';
+?>
 </body>
 </html>
