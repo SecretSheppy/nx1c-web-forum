@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<nx1c>
+    <host>
+        <branding>
+            <type>text</type>
+            <text>NX1C</text>
+        </branding>
+        <about>
+            <hostname>NX1C</hostname>
+            <description>A pure php reddit like forum/social media framework</description>
+            <contact>contact@genericemailprovider.com</contact>
+        </about>
+    </host>
+    <settings>
+        <captcha>1</captcha>
+        <postlimit>30</postlimit>
+        <postcharlimit>5000</postcharlimit>
+        <commentcharlimit>5000</commentcharlimit>
+        <defaultuimode>light</defaultuimode>
+        <defaulttheme>#45bbe7</defaulttheme>
+        <filter>
+            <word>
+                <raw>filterThis</raw>
+                <replacement>Filtered</replacement>
+            </word>
+            <word>
+                <raw>filterThis2</raw>
+                <replacement>Filtered2</replacement>
+            </word>
+        </filter>
+    </settings>
+    <footer>
+        <column>
+            <title>NX1C</title>
+            <link>
+                <display>User Agreement</display>
+                <href></href>
+            </link>
+            <link>
+                <display>Privacy Policy</display>
+                <href></href>
+            </link>
+            <link>
+                <display>Content Policy</display>
+                <href></href>
+            </link>
+            <link>
+                <display>About</display>
+                <href></href>
+            </link>
+        </column>
+    </footer>
+</nx1c>
