@@ -18,7 +18,7 @@ if ($post_id == null) {
 }
 
 if (isset($_GET["like"]) && isset($_SESSION["user"])) {
-    $sql = "UPDATE posts SET likes = likes + 1 WHERE postid = " . $_GET["postid"];
+    $sql = "UPDATE Posts, Users SET PostLikes = PostLikes + 1, UserLikes = UserLikes + 1 WHERE PostId = $post_id AND Posts.UserId = Users.UserId";
     if ($db->query($sql) !== true) {
         header("Location: err.php?msg=" . $db->error);
         exit();
