@@ -23,10 +23,6 @@ root of `./resources/css/main.light.css` or a host can write their own css theme
 By default, the NX1C interface uses the NX1C light theme, but it does also come with a dark theme that can
 be enabled by a user in their account settings.
 
-![NX1C Captcha](resources/images/nx1c-captcha.png)
-![NX1C Login](resources/images/nx1c-login.png)
-![NX1C Signup](resources/images/nx1c-signup.png)
-![NX1C Signup Stage 2](resources/images/nx1c-signup-2.png)
 ![NX1C Home](resources/images/nx1c-home.png)
 
 ## Installation
