@@ -16,12 +16,12 @@ $user_id = $_SESSION["user"]["id"];
 $sql = new SQLGen();
 
 if ($ui_mode != null) {
-    $sql->update("users")
+    $sql->update("Users")
         ->set(array(
-            "uiMode = $ui_mode",
-            "theme = '$theme'"
+            "UserUiMode = $ui_mode",
+            "UserTheme = '$theme'"
         ))
-        ->where("userid = $user_id");
+        ->where("UserId = $user_id");
     if ($db->query($sql->get_statement()) === false) {
         header("Location: err.php");
         exit();

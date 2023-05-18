@@ -67,7 +67,7 @@ include 'tools/subnav.inc.php';
             <?php
 
             // getting the post from database
-            $sql = "SELECT * FROM posts, users WHERE posts.userid = users.userid AND postid = '$post_id'";
+            $sql = "SELECT * FROM Posts, Users WHERE Posts.UserId = Users.UserId AND Posts.PostId = '$post_id'";
             $result = $db->query($sql);
 
             if ($result->num_rows == 0) {
@@ -79,20 +79,20 @@ include 'tools/subnav.inc.php';
 
             echo <<< HTML
             <div class="username-container">
-                <a class="username-display" href="nx1c.php?user-id={$row["userid"]}" id="{$row["role"]}"><strong>{$row["name"]}</strong></a>
+                <a class="username-display" href="nx1c.php?user-id={$row["UserId"]}" id="{$row["UserRole"]}"><strong>{$row["UserName"]}</strong></a>
                 <div class="username-container-right">
-                    <p><strong>{$row["likes"]}</strong> Likes</p>
+                    <p><strong>{$row["PostLikes"]}</strong> Likes</p>
             HTML;
             if (isset($_SESSION["user"])) echo '<a class="link" href="?postid=' . $post_id . '&like">Like this post</a>';
             echo <<< HTML
                 </div>
             </div>
-            <h1>{$row["title"]}</h1>
+            <h1>{$row["PostTitle"]}</h1>
             <div class="tags">
             HTML;
 
-            if ($row["tags"] !== null) {
-                $tags = explode(", ", $row["tags"]);
+            if ($row["PostTags"] !== null) {
+                $tags = explode(", ", $row["PostTags"]);
 
                 foreach ($tags as $tag) {
                     echo '<a class="tag" href="nx1c.php?tag=' . $tag . '">' . $tag . '</a>';
@@ -106,7 +106,7 @@ include 'tools/subnav.inc.php';
 
             // TODO
 
-            echo print_paragraph($row["content"], true);
+            echo print_paragraph($row["PostContent"], true);
 
             ?>
         </div>
@@ -114,26 +114,26 @@ include 'tools/subnav.inc.php';
         <div class="replies">
             <?php
 
-            $sql = "SELECT * FROM comments WHERE postid = '$post_id'";
+            $sql = "SELECT * FROM Comments WHERE PostId = '$post_id'";
             $result = $db->query($sql);
 
             for ($i = 0; $i < $result->num_rows; $i++) {
 
                 $comment = $result->fetch_assoc();
 
-                $sql = "SELECT name, role FROM users WHERE userid = " . $comment["userid"];
+                $sql = "SELECT UserName, UserRole FROM Users WHERE UserId = " . $comment["UserId"];
                 $user_data = $db->query($sql);
                 $user = $user_data->fetch_assoc();
 
                 echo <<< HTML
                 <div class="reply">
                     <div class="reply-info">
-                        <a href="nx1c.php?userid={$comment["userid"]}" id="{$user["role"]}">{$user["name"]}</a>
+                        <a href="nx1c.php?userid={$comment["UserId"]}" id="{$user["UserRole"]}">{$user["UserName"]}</a>
                         <a href="reply.php?post_id=0&comment_id=0">reply</a>
                     </div>
                     <div class="reply-text">
                 HTML;
-                echo print_paragraph($comment["content"], true);
+                echo print_paragraph($comment["CommentContent"], true);
                 echo '</div></div>';
 
             }

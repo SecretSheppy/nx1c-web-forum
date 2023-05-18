@@ -36,15 +36,15 @@ if ($search_value != null) {
         ->limit(30);
     $sql_statement = $sql->get_statement();
     unset($sql);
-    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND posts.content LIKE '%$search_value%' ORDER BY posts.postid DESC LIMIT 30";
+    $sql = "SELECT Posts.PostId, Posts.PostTitle, Posts.PostContent, Posts.PostTags, Posts.PostLikes, Users.UserName, Users.UserRole, Users.UserId FROM Posts, Users WHERE Posts.UserId = Users.UserId AND Posts.PostContent LIKE '%$search_value%' ORDER BY Posts.PostId DESC LIMIT 30";
 } else if ($user_id != null) {
-    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND users.userid = $user_id ORDER BY posts.postid DESC LIMIT 30";
+    $sql = "SELECT Posts.PostId, Posts.PostTitle, Posts.PostContent, Posts.PostTags, Posts.PostLikes, Users.UserName, Users.UserRole, Users.UserId FROM Posts, Users WHERE Posts.UserId = Users.UserId AND Users.UserId = $user_id ORDER BY Posts.PostId DESC LIMIT 30";
 } else if ($tag != null) {
-    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND posts.tags LIKE '%$tag%' ORDER BY posts.postid DESC LIMIT 30";
+    $sql = "SELECT Posts.PostId, Posts.PostTitle, Posts.PostContent, Posts.PostTags, Posts.PostLikes, Users.UserName, Users.UserRole, Users.UserId FROM Posts, Users WHERE Posts.UserId = Users.UserId AND Posts.PostTags LIKE '%$tag%' ORDER BY Posts.PostId DESC LIMIT 30";
 } else if ($next_post_block != null) {
-    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid AND posts.postid < $next_post_block ORDER BY posts.postid DESC LIMIT 30";
+    $sql = "SELECT Posts.PostId, Posts.PostTitle, Posts.PostContent, Posts.PostTags, Posts.PostLikes, Users.UserName, Users.UserRole, Users.UserId FROM Posts, Users WHERE Posts.UserId = Users.UserId AND Posts.PostId < $next_post_block ORDER BY Posts.PostId DESC LIMIT 30";
 } else {
-    $sql = "SELECT posts.postid, posts.title, posts.content, posts.tags, posts.likes, users.name, users.role, users.userid FROM posts, users WHERE posts.userid = users.userid ORDER BY posts.postid DESC LIMIT 30";
+    $sql = "SELECT Posts.PostId, Posts.PostTitle, Posts.PostContent, Posts.PostTags, Posts.PostLikes, Users.UserName, Users.UserRole, Users.UserId FROM Posts, Users WHERE Posts.UserId = Users.UserId ORDER BY Posts.PostId DESC LIMIT 30";
 }
 
 $result = $db->query($sql);
@@ -104,11 +104,11 @@ include 'tools/subnav.inc.php';
             for ($i = 0; $i < $result->num_rows; $i++) {
 
                 $row = $result->fetch_assoc();
-                $paragraph_data = print_paragraph($row["content"]);
+                $paragraph_data = print_paragraph($row["PostContent"]);
                 $tags_data = "";
 
                 if ($i == $result->num_rows - 1) {
-                    $last_post_id = $row["postid"];
+                    $last_post_id = $row["PostId"];
                 }
 
                 if ($row["tags"] !== null) {
@@ -121,19 +121,19 @@ include 'tools/subnav.inc.php';
                 <div class="item">
                     <div class="inner">
                         <div class="username-container">
-                            <a class="username-display" href="nx1c.php?user-id={$row["userid"]}" id="{$row["role"]}"><strong>{$row["name"]}</strong></a>
+                            <a class="username-display" href="nx1c.php?user-id={$row["UserId"]}" id="{$row["UserRole"]}"><strong>{$row["UserName"]}</strong></a>
                             <div class="username-container-right">
-                                <p><strong>{$row["likes"]}</strong> Likes</p>
+                                <p><strong>{$row["PostLikes"]}</strong> Likes</p>
                             </div>
                         </div>
-                        <h1>{$row["title"]}</h1>
+                        <h1>{$row["PostTitle"]}</h1>
                         <div class="tags">
                         {$tags_data}
                         </div>
                         {$paragraph_data}
                     </div>
                     <div class="center">
-                        <a href="post.php?postid={$row["postid"]}">See Full Post</a>
+                        <a href="post.php?postid={$row["PostId"]}">See Full Post</a>
                     </div>
                 </div>
                 HTML;
@@ -165,17 +165,17 @@ include 'tools/subnav.inc.php';
                 </div>
                 HTML;
             } else {
-                $sql = "SELECT userid, name, upvotes FROM users ORDER BY upvotes DESC LIMIT 8";
+                $sql = "SELECT UserId, UserName, UserLikes FROM Users ORDER BY UserLikes DESC LIMIT 8";
                 $result = $db->query($sql);
                 for ($i = 0; $i < $result->num_rows; $i++) {
                     $row = $result->fetch_assoc();
                     echo <<< HTML
                     <div class="user">
                         <div>
-                            <h3>{$row["name"]}</h3> 
-                            <p>{$row["upvotes"]} Likes</p>                    
+                            <h3>{$row["UserName"]}</h3> 
+                            <p>{$row["UserLikes"]} Likes</p>                    
                         </div>
-                        <a href="nx1c.php?user-id={$row["userid"]}">View</a>
+                        <a href="nx1c.php?user-id={$row["UserId"]}">View</a>
                     </div>
                     HTML;
                 }

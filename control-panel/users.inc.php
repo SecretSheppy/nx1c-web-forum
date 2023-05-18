@@ -4,7 +4,7 @@ include '../protected/db.inc.php';
 include '../tools/SQLGen.php';
 $sql = new SQLGen();
 $sql->select("*")
-    ->from("users");
+    ->from("Users");
 $result = $db->query($sql->get_statement());
 
 echo <<< HTML
@@ -25,14 +25,14 @@ for ($i = 0; $i < $result->num_rows; $i++) {
     echo <<< HTML
     <tr>
         <form method="post" action="update_user_information.php" enctype="application/x-www-form-urlencoded">
-            <input name="userid" type="hidden" value="{$row["userid"]}" />
-            <td><input name="username" placeholder="Username (required)" value="{$row["name"]}" required /></td>
-            <td><input name="role" placeholder="No Role" value="{$row["role"]}" /></td>
+            <input name="userid" type="hidden" value="{$row["UserId"]}" />
+            <td><input name="username" placeholder="Username (required)" value="{$row["UserName"]}" required /></td>
+            <td><input name="role" placeholder="No Role" value="{$row["UserRole"]}" /></td>
             <td><input type="submit" value="Save" /></td>
         </form>
         <form method="post" action="remove_user.php" enctype="application/x-www-form-urlencoded">
             <td>
-                <input name="userid" type="hidden" value="{$row["userid"]}" />
+                <input name="userid" type="hidden" value="{$row["UserId"]}" />
                 <input type="submit" value="Remove" />
             </td>
         </form>

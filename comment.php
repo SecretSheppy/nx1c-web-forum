@@ -12,11 +12,11 @@ $post_id = (int) filter_input(INPUT_POST, "postid", FILTER_DEFAULT);
 $content = (string) filter_input(INPUT_POST, "content", FILTER_SANITIZE_ADD_SLASHES);
 $user_id = $_SESSION["user"]["id"];
 $sql = new SQLGen();
-$sql->insert_into("comments")
+$sql->insert_into("Comments")
     ->fields(array(
-        "postid",
-        "userid",
-        "content"
+        "PostId",
+        "UserId",
+        "CommentContent"
     ))
     ->values(array(
         $post_id,

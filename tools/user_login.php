@@ -13,16 +13,16 @@
 function user_login($db, $username, $password, $redirect)
 {
 
-    $row = ($db->query("SELECT * FROM users WHERE name = '$username'"))->fetch_assoc();
+    $row = ($db->query("SELECT * FROM Users WHERE UserName = '$username'"))->fetch_assoc();
 
-    if ($row["password"] == $password) {
+    if ($row["UserPassword"] == $password) {
 
         $_SESSION["user"] = array(
-            "id" => $row["userid"],
-            "name" => $row["name"],
+            "id" => $row["UserId"],
+            "name" => $row["UserName"],
             "password" => $password,
-            "uiMode" => $row["uiMode"],
-            "theme" => $row["theme"]
+            "uiMode" => $row["UserUiMode"],
+            "theme" => $row["UserTheme"]
         );
 
         if ($redirect) {

@@ -20,8 +20,8 @@ $page = "default";
 if ($username != null) {
 
     $sql->select("*")
-        ->from("users")
-        ->where("name = '$username'");
+        ->from("Users")
+        ->where("UserName = '$username'");
     $username_search_results = $db->query($sql->get_statement());
 
     if ($username_search_results->num_rows == 0) {

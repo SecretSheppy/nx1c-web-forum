@@ -15,12 +15,12 @@ $id = $_SESSION["user"]["id"];
 
 if ($title != null) {
     $sql = new SQLGen();
-    $sql->insert_into("posts")
+    $sql->insert_into("Posts")
         ->fields(array(
-            "userid",
-            "title",
-            "tags",
-            "content"
+            "UserId",
+            "PostTitle",
+            "PostTags",
+            "PostContent"
         ))
         ->values(array(
             $id,

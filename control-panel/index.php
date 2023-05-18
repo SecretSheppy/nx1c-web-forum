@@ -9,7 +9,7 @@ if (isset($_POST["username"])) {
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    $sql = "SELECT * FROM users WHERE name = '$username' AND password = '$password' AND role = 'admin'";
+    $sql = "SELECT * FROM Users WHERE UserName = '$username' AND UserPassword = '$password' AND UserRole = 'admin'";
     $result = $db->query($sql);
 
     if ($result->num_rows > 0) {

@@ -9,11 +9,11 @@ function create_account($db, $username, $password, $password_confirm, $token): v
         exit();
     }
     $sql = new SQLGen();
-    $sql->insert_into("users")
+    $sql->insert_into("Users")
         ->fields(array(
-            "name",
-            "password",
-            "securityToken"
+            "UserName",
+            "UserPassword",
+            "UserSecurityToken"
         ))
         ->values(array(
             $username,
