@@ -1,43 +1,49 @@
 <?php
 
-/**
- * NX1C Authenticator
- * (POST) user-session-id: <randomly generated id by client side>
- */
+session_start();
 
-function GetMAC(){
-    ob_start();
-    system('getmac');
-    $Content = ob_get_contents();
-    ob_clean();
-    return substr($Content, strpos($Content,'\\')-20, 17);
+require ('global_functions.php');
+
+$language = (string) filter_input(INPUT_GET, "lang", FILTER_SANITIZE_ADD_SLASHES);
+$do_activation = (int) filter_input(INPUT_POST, "do-activation", FILTER_VALIDATE_INT);
+$mac_address = get_mac_address();
+
+$database_server_name = "";
+$database_user_name = "";
+$database_password = "";
+$database_name = "";
+$database = new mysqli(
+    $database_server_name,
+    $database_user_name,
+    $database_password,
+    $database_name
+);
+if ($database->connect_error) $error = "Failed to connect";
+
+if (!isset($_SESSION["user-logged-in"])) redirect("auth.php?lang=$language");
+
+if ($do_activation !== 1) {
+    // enter sql query here
+    // i.e. SELECT ProductThumb FROM Products WHERE ProductId = '$_SESSION["product-id"]'
+    $product_row = $database->query("");
+    if ($product_row->num_rows == 0) $error = "Product not found";
+    // enter password column name
+    // i.e. ProductThumb
+    $product_thumbnail_url = ($product_row->fetch_assoc())[""];
+    echo str_replace(
+        "<product-thumbnail-url>",
+        $product_thumbnail_url,
+        file_get_contents("languages/activate_$language.html")
+    );
+} else {
+    // enter sql query here
+    // i.e. UPDATE Users SET ... WHERE UserName = '$_SESSION["user-name"]'
+    if ($database->query("") !== true) {
+        // replace this with error handling
+        $error = "Failed to update user record";
+    } else {
+        readfile("languages/activated_$language.html");
+    }
 }
 
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User Login</title>
-    <link rel="stylesheet" href="auth.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-</head>
-<body>
-<div class="login-wrapper">
-    <div class="login">
-        <h1>NX1C</h1>
-        <p>Activate Your Product</p>
-        <p class="no-margin">Activate your product on this device via your MAC address (seen below)</p>
-        <div class="token-wrapper">
-            <p><?php echo GetMAC(); ?></p>
-        </div>
-        <form method="POST" enctype="application/x-www-form-urlencoded">
-            <div class="button-wrapper">
-                <input type="submit" value="Activate for this device" />
-            </div>
-        </form>
-    </div>
-</div>
-</body>
-</html>
+$database->close();

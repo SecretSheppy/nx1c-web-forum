@@ -183,15 +183,21 @@ login styling
 }
 
 .token-wrapper {
-    background-color: #b7b7b7;
+    background-color: #ececec;
     word-wrap: break-word;
-    padding: 20px;
+    padding: 10px;
     box-sizing: border-box;
     border-radius: 10px;
+    text-align: center;
 }
 
 .token-wrapper > p {
     font-family: "Courier New", monospace;
+}
+
+.token-wrapper > img {
+    width: 100%;
+    border-radius: 5px;
 }
 
 .force-horizontal {
