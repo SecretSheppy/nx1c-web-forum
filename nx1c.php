@@ -9,11 +9,12 @@ gate_keeper(0);
 include 'protected/db.inc.php';
 include 'tools/text_formatting.php';
 include 'tools/SQLGen.php';
+include 'tools/page_buttons.inc.php';
 
 $search_value = (string) filter_input(INPUT_GET, "search-value", FILTER_SANITIZE_ADD_SLASHES);
 $user_id = (int) filter_input(INPUT_GET, "user-id", FILTER_DEFAULT);
 $tag = (string) filter_input(INPUT_GET, "tag", FILTER_SANITIZE_ADD_SLASHES);
-$next_post_block = (int) filter_input(INPUT_GET, "next-post-block", FILTER_DEFAULT);
+$next_post_block = (int) filter_input(INPUT_GET, "post-block", FILTER_DEFAULT);
 
 if ($search_value != null) {
     // TODO - finish the generating sql process.
@@ -186,39 +187,9 @@ include 'tools/subnav.inc.php';
         </div>
     </div>
 </div>
-<div class="pre-footer">
-    <div class="inner">
-        <div class="prev">
-            <a <?php if ($next_post_block != null) echo 'href="?next-post-block=' . $next_post_block + 30 . '"'; ?>>Previous</a>
-        </div>
-        <div class="next">
-            <a <?php echo "href='?next-post-block=$last_post_id'" ?>>Next</a>
-        </div>
-    </div>
-</div>
-<div class="footer">
-    <div class="element">
-        <h3>NX1C</h3>
-        <a href="#">User Agreement</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Content Policy</a>
-        <a href="#">About</a>
-    </div>
-    <div class="element">
-        <h3>Support</h3>
-        <a href="#">Delete Account</a>
-        <a href="#">General Enquiry</a>
-    </div>
-    <div class="element">
-        <h3>Other Links</h3>
-        <a href="http://5wvugn3zqfbianszhldcqz2u7ulj3xex6i3ha3c5znpgdcnqzn24nnid.onion/">The Hidden Wiki</a>
-        <a href="http://jaz45aabn5vkemy4jkg4mi4syheisqn2wn2n4fsuitpccdackjwxplad.onion/">OnionLinks</a>
-        <a href="http://lldan5gahapx5k7iafb3s4ikijc4ni7gx5iywdflkba5y2ezyg6sjgyd.onion/">OnionShare</a>
-        <a href="http://dreadytofatroptsdj6io7l3xptbet6onoyno2yv7jicoxknyazubrad.onion/">Dread</a>
-        <a href="https://daunt.link">Daunt</a>
-    </div>
-</div>
 <?php
+render_pages_buttons($next_post_block, $last_post_id);
+include 'tools/footer.inc.php';
 include 'tools/nx1c_footer.inc.php';
 ?>
 </body>

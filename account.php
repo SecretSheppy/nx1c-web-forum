@@ -107,6 +107,11 @@ include 'tools/subnav.inc.php';
                 <label for="confirm-new-password">Confirm New Password</label>
             </div>
             <input placeholder="Confirm New Password" type="password" id="confirm-new-password" name="confirm-new-password" required />
+            <div class="label-wrapper">
+                <label for="security-token">Security Token</label>
+            </div>
+            <input placeholder="Enter Security Token" id="security-token" name="security-token" required />
+            <input type="submit" value="Update Password" />
             <hr>
         </form>
         <form class="block-form" action="account.php" method="POST" enctype="application/x-www-form-urlencoded">

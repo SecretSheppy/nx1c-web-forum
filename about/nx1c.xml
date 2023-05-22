@@ -34,19 +34,19 @@
             <title>NX1C</title>
             <link>
                 <display>User Agreement</display>
-                <href></href>
+                <href>example_page.php</href>
             </link>
             <link>
                 <display>Privacy Policy</display>
-                <href></href>
+                <href>example_page.php</href>
             </link>
             <link>
                 <display>Content Policy</display>
-                <href></href>
+                <href>example_page.php</href>
             </link>
             <link>
                 <display>About</display>
-                <href></href>
+                <href>example_page.php</href>
             </link>
         </column>
     </footer>
