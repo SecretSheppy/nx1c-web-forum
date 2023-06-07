@@ -48,3 +48,10 @@ An example API call can be seen below.
   * Sets the post text. MUST be used in combination with `make_post_as_user`.
 * `api_key=<api_key>`
   * Specifies your api key.
+
+## Security
+
+The NX1C API is secure, but it is highly recommended that you only add it to your installation
+if you know what you are doing, and you have added extra security features of your own.
+It is also recommended that you have some sort of DDOS prevention as due to the public nature of the
+API source code it is very easy for people to just spam requests.
