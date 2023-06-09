@@ -37,13 +37,20 @@ either create an issue or a new discussion, and I'll get back to you within a fe
 3. Run `./protected/sql/nx1c_database_config.sql` in the console
 4. Open `./about/nx1c.xml` and enter the settings you want
 5. You're all done!
-### Optional Steps
+### Optional Steps (NX1C Control Panel)
 1. Clone the `nx1c-control-panel` repository into the `htdocs` or `public html` folder of your apache install
 2. Open phpmyadmin (or your equivalent database manager)
 3. Navigate to the `Users` table
 4. In your account record add `admin` into the `UserRole` column
 5. Open `https://your.domain.name/control-panel/` to login
 6. You're all done!
+### Optional Steps (NX1C API)
+1. Clone the `nx1c-api` repository into the `htdocs` or `public html` folder of your apache install
+2. Open `about/nx1c.xml`
+3. Find the `<api-configuration></api-configuration>` section of the document
+4. Ensure the settings only allow third party access to the specific parts of the system that you want it to
+5. You're all done!
+6. (extra) Make sure to publish API documentation and guidelines
 
 ## Roadmap
 I have lots of plans for NX1C further down the line, here's a little insight into what's coming:
