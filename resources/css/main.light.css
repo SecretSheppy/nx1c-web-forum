@@ -674,6 +674,20 @@ tr:hover:not(:first-child) {
     color: #fff !important;
 }
 
+tr:focus-within {
+    outline: solid 4px var(--theme-bgcolor);
+    outline-offset: -1px;
+}
+
+tr:focus-within:hover:not(:first-child) {
+    background-color: transparent;
+    color: var(--input-color);
+}
+
+/*
+styling adjustments for mobile
+ */
+
 @media screen and (max-width: 640px) {
     .nav > .search-wrapper {
         display: none;

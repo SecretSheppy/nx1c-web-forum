@@ -30,7 +30,6 @@ if (!isset($_GET["panel"])) {
     <link rel="shotrcut icon" href="../resources/images/logo.webp">
 </head>
 <body>
-<div class="loader"></div>
 <div class="nav">
     <img src="../resources/images/control-panel-logo.webp">
 </div>
@@ -38,8 +37,7 @@ if (!isset($_GET["panel"])) {
     <div class="inner">
         <a href="?panel=host_configuration">Host Configuration</a>
         <a href="?panel=users">Users</a>
-        <a href="#">Posts</a>
-        <a href="#">Comments</a>
+        <a href="?panel=posts">Posts</a>
     </div>
 </div>
 <div class="navblocker"></div>
